@@ -2,7 +2,7 @@
     "type": "machine_model",
     "name": "CYCNUMBRIS 500 PRO",
     "model_id": "CYCNUMBRIS-500-PRO",
-    "nozzle_diameter": "0.2;0.4;0.6;0.8",
+    "nozzle_diameter": "0.4 General Air;0.4 HP Liquid;0.4 HF Air;0.4 HF Liquid;0.4 Flexible",
     "machine_tech": "FFF",
     "family": "CYCNUMBRIS",
     "bed_model": "Cycnumbris 500 pro_build_plate.stl",

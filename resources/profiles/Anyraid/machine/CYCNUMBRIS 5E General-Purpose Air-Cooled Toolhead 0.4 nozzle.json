@@ -1,0 +1,31 @@
+{
+    "type": "machine",
+    "name": "CYCNUMBRIS 5E General-Purpose Air-Cooled Toolhead 0.4 nozzle",
+    "inherits": "fdm_cycnumbris_5e_common",
+    "from": "system",
+    "setting_id": "18VNwuQFW2euQujP",
+    "instantiation": "true",
+    "printer_model": "CYCNUMBRIS 5E",
+    "default_print_profile": "0.20mm Standard 0.4 nozzle @ANYRAID",
+    "max_layer_height": [
+        "0.32"
+    ],
+    "min_layer_height": [
+        "0.10"
+    ],
+    "nozzle_diameter": [
+        "0.4"
+    ],
+    "printable_area": [
+        "0x0",
+        "500x0",
+        "500x500",
+        "0x500"
+    ],
+    "printable_height": "1000",
+    "printer_variant": "0.4 General Air",
+    "printer_notes": "Toolhead: General-Purpose Air-Cooled Toolhead. Published hardware limits: 300 C maximum heating temperature, 35 mm3/s maximum extrusion flow, 60 C maximum supported chamber temperature. These hardware limits are not calibrated slicer defaults.",
+    "default_filament_profile": [
+        "Generic PLA @System"
+    ]
+}
