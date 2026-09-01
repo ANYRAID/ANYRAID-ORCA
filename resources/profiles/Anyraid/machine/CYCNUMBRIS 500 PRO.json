@@ -1,0 +1,12 @@
+{
+    "type": "machine_model",
+    "name": "CYCNUMBRIS 500 PRO",
+    "model_id": "CYCNUMBRIS-500-PRO",
+    "nozzle_diameter": "0.2;0.4;0.6;0.8",
+    "machine_tech": "FFF",
+    "family": "CYCNUMBRIS",
+    "bed_model": "Cycnumbris 500 pro_build_plate.stl",
+    "bed_texture": "Cycnumbris 500 pro_bed_texture.png",
+    "hotend_model": "Cycnumbris 500 pro_hotend.stl",
+    "default_materials": "Generic PLA @System;Generic PETG @System;Generic TPU @System;Generic PVA @System"
+}
