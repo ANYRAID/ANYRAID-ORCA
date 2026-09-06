@@ -210,7 +210,8 @@ PA_Calibration_Dlg::PA_Calibration_Dlg(wxWindow* parent, wxWindowID id, Plater* 
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/pressure_advance_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -432,7 +433,8 @@ Temp_Calibration_Dlg::Temp_Calibration_Dlg(wxWindow* parent, wxWindowID id, Plat
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/temp_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -614,7 +616,8 @@ MaxVolumetricSpeed_Test_Dlg::MaxVolumetricSpeed_Test_Dlg(wxWindow* parent, wxWin
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/volumetric_speed_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -738,7 +741,8 @@ VFA_Test_Dlg::VFA_Test_Dlg(wxWindow* parent, wxWindowID id, Plater* plater)
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/vfa_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -977,7 +981,8 @@ Retraction_Test_Dlg::Retraction_Test_Dlg(wxWindow* parent, wxWindowID id, Plater
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/retraction_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -1157,7 +1162,8 @@ Input_Shaping_Freq_Test_Dlg::Input_Shaping_Freq_Test_Dlg(wxWindow* parent, wxWin
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/input_shaping_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -1356,7 +1362,8 @@ Input_Shaping_Damp_Test_Dlg::Input_Shaping_Damp_Test_Dlg(wxWindow* parent, wxWin
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/input_shaping_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -1552,7 +1559,8 @@ Cornering_Test_Dlg::Cornering_Test_Dlg(wxWindow* parent, wxWindowID id, Plater* 
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/cornering_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);
@@ -1691,7 +1699,8 @@ FlowRateCalibrationDialog::FlowRateCalibrationDialog(wxWindow* parent, wxWindowI
     auto dlg_btns = new DialogButtons(this, {"OK"});
 
     auto bottom_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/flow_ratio_calib");
+    auto wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    wiki->Hide();
     bottom_sizer->Add(wiki, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(20));
     bottom_sizer->AddStretchSpacer();
     bottom_sizer->Add(dlg_btns, 0, wxEXPAND);

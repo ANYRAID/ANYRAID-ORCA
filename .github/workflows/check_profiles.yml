@@ -27,6 +27,9 @@ jobs:
     # This job name is the check-run name pr-merge-bot.yml requires before a
     # delegated merge. Renaming it silently disables that gate.
     name: Check profiles
+    # Disabled until ANYRAID-ORCA publishes its own profile-validator artifacts.
+    # The fork must not download OrcaSlicer-operated CI artifacts.
+    if: ${{ false }}
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
@@ -44,7 +47,8 @@ jobs:
       - name: Download
         working-directory: ${{ github.workspace }}
         run: |
-          curl -L -o OrcaSlicer_profile_validator https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_profile_validator_Linux_Ubuntu2404_nightly
+          echo "ANYRAID-ORCA profile validator is not published yet"
+          exit 1
           chmod +x ./OrcaSlicer_profile_validator
 
       # Validate all system profiles.
@@ -82,7 +86,7 @@ jobs:
           output_dir="${{ runner.temp }}/custom-preset-validation"
           combined_log="${{ runner.temp }}/validate_custom.log"
           summary="${output_dir}/summary.md"
-          release_url="https://github.com/OrcaSlicer/OrcaSlicer-profile-validator/releases/download/fixture-archive"
+          release_url=""
 
           rm -rf "${fixtures_dir}" "${output_dir}"
           mkdir -p "${fixtures_dir}" "${output_dir}"

@@ -98,8 +98,8 @@ echo "  ccache:     enabled"
 echo ""
 
 # ---------- prepare manifest ----------
-MANIFEST_SRC="scripts/flatpak/com.orcaslicer.OrcaSlicer.yml"
-MANIFEST_DOCKER="scripts/flatpak/com.orcaslicer.OrcaSlicer.docker.yml"
+MANIFEST_SRC="scripts/flatpak/com.anyraid.anyraidorca.yml"
+MANIFEST_DOCKER="scripts/flatpak/com.anyraid.anyraidorca.docker.yml"
 # Ensure cleanup on exit (success or failure)
 trap 'rm -f "$PROJECT_ROOT/$MANIFEST_DOCKER"' EXIT
 
@@ -201,7 +201,7 @@ flatpak-builder $FORCE_CLEAN_FLAG \
     --arch="$BUILD_ARCH" \
     --repo=flatpak-repo \
     flatpak-build \
-    scripts/flatpak/com.orcaslicer.OrcaSlicer.docker.yml
+    scripts/flatpak/com.anyraid.anyraidorca.docker.yml
 builder_end=$(date +%s)
 builder_duration=$((builder_end - builder_start))
 
@@ -210,7 +210,7 @@ flatpak build-bundle \
     --arch="$BUILD_ARCH" \
     flatpak-repo \
     "$BUNDLE_NAME" \
-    com.orcaslicer.OrcaSlicer
+    com.anyraid.anyraidorca
 bundle_end=$(date +%s)
 bundle_duration=$((bundle_end - bundle_start))
 

@@ -1352,11 +1352,14 @@ wxString OptionsGroup::get_url(const std::string& path_end)
         anchor.Replace(L" ", "-");
         str = str.Left(pos) + anchor;
     }
-    // Orca: point to sf wiki for seam parameters
-    return wxString::Format(L"https://www.orcaslicer.com/wiki/%s", from_u8(path_end));
+    return wxString();
 }
 
-bool OptionsGroup::launch_browser(const std::string& path_end) { return wxLaunchDefaultBrowser(OptionsGroup::get_url(path_end)); }
+bool OptionsGroup::launch_browser(const std::string& path_end)
+{
+    (void) path_end;
+    return false;
+}
 
 //-------------------------------------------------------------------------------------------
 // ogStaticText

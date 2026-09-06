@@ -6329,7 +6329,7 @@ void SelectMachineDialog::UpdateStatusCheckWarning_ExtensionTool(MachineObject* 
                 {
                     show_status(PrintDialogStatus::PrintStatusToolHeadCoolingFanWarning,
                                 { _L("Install toolhead enhanced cooling fan to prevent filament softening.")},
-                                "https://www.orcaslicer.com/wiki/"); // Orca: neutral wiki link (vendor URL removed)
+                                "");
                     return;
                 }
             }
@@ -7075,7 +7075,7 @@ void PrinterInfoBox::Create()
 
 void PrinterInfoBox::OnBtnQuestionClicked(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://www.orcaslicer.com/wiki/")); // Orca: neutral wiki link (vendor URL removed)
+    wxLaunchDefaultBrowser(wxT("https://github.com/ANYRAID/ANYRAID-ORCA"));
 }
 
 

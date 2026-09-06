@@ -1,6 +1,6 @@
 # OrcaSlicer tests
 
-Building, running and writing tests is documented on the wiki, under [How to Test](https://www.orcaslicer.com/wiki/developer_reference/how_to_test.html).
+Use this directory's [CATCH2.md](CATCH2.md) reference and the repository build scripts when building, running, or writing tests.
 
 Two files here rather than there, because coding agents only read what is in the repository:
 

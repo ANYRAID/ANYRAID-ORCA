@@ -255,8 +255,8 @@ mkdir -p "$BUILD_DIR"
 rm -rf "$BUILD_DIR/build-dir"
 
 # Check if flatpak manifest exists
-if [[ ! -f "./scripts/flatpak/com.orcaslicer.OrcaSlicer.yml" ]]; then
-    echo -e "${RED}Error: Flatpak manifest not found at scripts/flatpak/com.orcaslicer.OrcaSlicer.yml${NC}"
+if [[ ! -f "./scripts/flatpak/com.anyraid.anyraidorca.yml" ]]; then
+    echo -e "${RED}Error: Flatpak manifest not found at scripts/flatpak/com.anyraid.anyraidorca.yml${NC}"
     exit 1
 fi
 
@@ -316,11 +316,11 @@ if [[ "$DISABLE_ROFILES_FUSE" == true ]]; then
 fi
 
 # Use a temp manifest with no-debuginfo if requested
-MANIFEST="scripts/flatpak/com.orcaslicer.OrcaSlicer.yml"
+MANIFEST="scripts/flatpak/com.anyraid.anyraidorca.yml"
 if [[ "$NO_DEBUGINFO" == true ]]; then
-    MANIFEST="scripts/flatpak/com.orcaslicer.OrcaSlicer.no-debug.yml"
+    MANIFEST="scripts/flatpak/com.anyraid.anyraidorca.no-debug.yml"
     sed '/^build-options:/a\  no-debuginfo: true\n  strip: true' \
-        scripts/flatpak/com.orcaslicer.OrcaSlicer.yml > "$MANIFEST"
+        scripts/flatpak/com.anyraid.anyraidorca.yml > "$MANIFEST"
     echo -e "${YELLOW}Debug info disabled (using temp manifest)${NC}"
 fi
 
@@ -330,19 +330,19 @@ if ! flatpak-builder \
     "$MANIFEST"; then
     echo -e "${RED}Error: flatpak-builder failed${NC}"
     echo -e "${YELLOW}Check the build log above for details${NC}"
-    rm -f "scripts/flatpak/com.orcaslicer.OrcaSlicer.no-debug.yml"
+    rm -f "scripts/flatpak/com.anyraid.anyraidorca.no-debug.yml"
     exit 1
 fi
 
 # Clean up temp manifest
-rm -f "scripts/flatpak/com.orcaslicer.OrcaSlicer.no-debug.yml"
+rm -f "scripts/flatpak/com.anyraid.anyraidorca.no-debug.yml"
 
 # Create bundle
 echo -e "${YELLOW}Creating Flatpak bundle...${NC}"
 if ! flatpak build-bundle \
     "$BUILD_DIR/repo" \
     "$BUNDLE_NAME" \
-    com.orcaslicer.OrcaSlicer \
+    com.anyraid.anyraidorca \
     --arch="$ARCH"; then
     echo -e "${RED}Error: Failed to create Flatpak bundle${NC}"
     exit 1
@@ -360,11 +360,11 @@ echo ""
 echo -e "${BLUE}To install the Flatpak:${NC}"
 echo -e "flatpak install --user $BUNDLE_NAME"
 echo ""
-echo -e "${BLUE}To run OrcaSlicer:${NC}"
-echo -e "flatpak run com.orcaslicer.OrcaSlicer"
+echo -e "${BLUE}To run ANYRAID-ORCA:${NC}"
+echo -e "flatpak run com.anyraid.anyraidorca"
 echo ""
 echo -e "${BLUE}To uninstall:${NC}"
-echo -e "flatpak uninstall --user com.orcaslicer.OrcaSlicer"
+echo -e "flatpak uninstall --user com.anyraid.anyraidorca"
 echo ""
 if [[ "$FORCE_CLEAN" != true ]]; then
     echo -e "${BLUE}Cache Management:${NC}"

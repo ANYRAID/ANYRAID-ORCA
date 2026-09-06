@@ -12150,12 +12150,10 @@ void Plater::priv::on_select_preset(wxCommandEvent &evt)
                     cloud_url = orca_agent->get_cloud_base_url();
                 }
             }
-            if (cloud_url.empty())
-                cloud_url = "https://cloud.orcaslicer.com";
-
-            std::string explore_url = cloud_url + "/app/bundles/explore?printers=" + encoded_name;
-
-            wxGetApp().plater()->get_notification_manager()->push_shared_profiles_notification(explore_url);
+            if (!cloud_url.empty()) {
+                std::string explore_url = cloud_url + "/app/bundles/explore?printers=" + encoded_name;
+                wxGetApp().plater()->get_notification_manager()->push_shared_profiles_notification(explore_url);
+            }
         }
     }
 
@@ -13340,7 +13338,7 @@ void Plater::priv::set_project_name(const wxString& project_name)
     if (!m_project_name.IsEmpty())
         wxGetApp().mainframe->update_title_colour_after_set_title();
 #else
-    wxGetApp().mainframe->SetTitle(m_project_name + " - OrcaSlicer");
+    wxGetApp().mainframe->SetTitle(m_project_name + " - " + wxString(SLIC3R_APP_NAME));
     wxGetApp().mainframe->topbar()->SetTitle(m_project_name);
 #endif
 }
@@ -13360,7 +13358,7 @@ void Plater::priv::update_title_dirty_status()
     wxGetApp().mainframe->SetTitle(title);
     wxGetApp().mainframe->update_title_colour_after_set_title();
 #else
-    wxGetApp().mainframe->SetTitle(title + " - OrcaSlicer");
+    wxGetApp().mainframe->SetTitle(title + " - " + wxString(SLIC3R_APP_NAME));
     wxGetApp().mainframe->topbar()->SetTitle(title);
 #endif    
 }

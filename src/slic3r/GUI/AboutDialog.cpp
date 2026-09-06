@@ -18,7 +18,7 @@ AboutDialogLogo::AboutDialogLogo(wxWindow* parent)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
     this->SetBackgroundColour(*wxWHITE);
-    this->logo = ScalableBitmap(this, Slic3r::var("OrcaSlicer_192px.png"), wxBITMAP_TYPE_PNG);
+    this->logo = ScalableBitmap(this, "ANYRAID-ORCA_about_192px", 192);
     this->SetMinSize(this->logo.GetBmpSize());
 
     this->Bind(wxEVT_PAINT, &AboutDialogLogo::onRepaint, this);
@@ -109,6 +109,7 @@ void CopyrightsDialog::fill_entries()
         { "Qhull",                                          "",      "http://qhull.org" },
         { "Open Cascade",                                   "",      "https://www.opencascade.com" },
         { "OpenGL",                                         "",      "https://www.opengl.org" },
+        { "OrcaSlicer",                                     "",      "https://github.com/OrcaSlicer/OrcaSlicer" },
         { "PoEdit",                                         "",      "https://poedit.net" },
         { "PrusaSlicer",                                    "",      "https://www.prusa3d.com" },
         { "Real-Time DXT1/DXT5 C compression library",      "",      "https://github.com/Cyan4973/RygsDXTc" },
@@ -147,9 +148,9 @@ wxString CopyrightsDialog::get_html_text()
                 "<font size=\"3\">",
          bgr_clr_str, text_clr_str, text_clr_str,
         _L("License"),
-        _L("Orca Slicer is licensed under "),
+        _L("ANYRAID-ORCA is licensed under "),
         "https://www.gnu.org/licenses/agpl-3.0.html",_L("GNU Affero General Public License, version 3"),
-        _L("Orca Slicer is based on PrusaSlicer and BambuStudio"),
+        _L("ANYRAID-ORCA is derived from OrcaSlicer, which is based on PrusaSlicer and BambuStudio"),
         _L("Libraries"),
         _L("This software uses open source components whose copyright and other proprietary rights belong to their respective owners"));
 
@@ -227,10 +228,8 @@ AboutDialog::AboutDialog()
     main_sizer->Add(m_panel, 1, wxEXPAND | wxALL, 0);
     main_sizer->Add(ver_sizer, 0, wxEXPAND | wxALL, 0);
 
-	bool is_dark = wxGetApp().app_config->get("dark_color_mode") == "1";
-
     // logo
-    m_logo_bitmap = ScalableBitmap(this, is_dark ? "OrcaSlicer_about_dark" : "OrcaSlicer_about", 125);
+    m_logo_bitmap = ScalableBitmap(this, "ANYRAID-ORCA_about_192px", 125);
     m_logo = new wxStaticBitmap(this, wxID_ANY, m_logo_bitmap.bmp(), wxDefaultPosition,wxDefaultSize, 0);
     m_logo->SetSizer(vesizer);
 
@@ -267,8 +266,8 @@ AboutDialog::AboutDialog()
 
     std::vector<wxString> text_list;
     text_list.push_back(_L("Open-source slicing stands on a tradition of collaboration and attribution. Slic3r, created by Alessandro Ranellucci and the RepRap community, laid the foundation. PrusaSlicer by Prusa Research built on that work, Bambu Studio forked from PrusaSlicer, and SuperSlicer extended it with community-driven enhancements. Each project carried the work of its predecessors forward, crediting those who came before."));
-    text_list.push_back(_L("OrcaSlicer began in that same spirit, drawing from PrusaSlicer, BambuStudio, SuperSlicer, and CuraSlicer. But it has since grown far beyond its origins — introducing advanced calibration tools, precise wall and seam control and hundreds of other features."));
-    text_list.push_back(_L("Today, OrcaSlicer is the most widely used and actively developed open-source slicer in the 3D printing community. Many of its innovations have been adopted by other slicers, making it a driving force for the entire industry."));
+    text_list.push_back(_L("OrcaSlicer continued that tradition, drawing from PrusaSlicer, BambuStudio, SuperSlicer, and CuraSlicer while contributing advanced calibration, wall, seam, and workflow capabilities to the open-source community."));
+    text_list.push_back(_L("ANYRAID-ORCA is a branded derivative of OrcaSlicer for ANYRAID development workflows. It preserves the upstream project history, licenses, and third-party attributions."));
 
     text_sizer->Add( 0, 0, 0, wxTOP, FromDIP(33));
     bool is_zh = wxGetApp().app_config->get("language") == "zh_CN";
@@ -311,7 +310,7 @@ AboutDialog::AboutDialog()
 
     copyright_hor_sizer->Add(copyright_ver_sizer, 0, wxLEFT, FromDIP(20));
 
-    wxStaticText *html_text = new wxStaticText(this, wxID_ANY, "Copyright(C) 2026 OrcaSlicer Pte Ltd All Rights Reserved", wxDefaultPosition, wxDefaultSize);
+    wxStaticText *html_text = new wxStaticText(this, wxID_ANY, "Copyright(C) 2026 ANYRAID · Derived from OrcaSlicer", wxDefaultPosition, wxDefaultSize);
     html_text->SetForegroundColour(wxColour(107, 107, 107));
 
     copyright_ver_sizer->Add(html_text, 0, wxALL , 0);
@@ -330,7 +329,7 @@ AboutDialog::AboutDialog()
               (boost::format(
               "<html>"
               "<body bgcolor= \"" + bgr_clr_str + "\" >"
-              "<p style=\"text-align:left\"><a style=\"color:#009789\" href=\"https://www.orcaslicer.com\">https://www.orcaslicer.com</ a></p>"
+              "<p style=\"text-align:left\"><a style=\"color:#009789\" href=\"https://github.com/ANYRAID/ANYRAID-ORCA\">github.com/ANYRAID/ANYRAID-ORCA</a></p>"
               "</body>"
               "</html>")
             ).str());

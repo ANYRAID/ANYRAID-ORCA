@@ -103,12 +103,12 @@ if(ORCA_TOOLS)
         add_executable(OrcaSlicer_profile_validator MACOSX_BUNDLE dev-utils/OrcaSlicer_profile_validator.cpp)
         set_target_properties(OrcaSlicer_profile_validator PROPERTIES
             MACOSX_BUNDLE TRUE
-            MACOSX_BUNDLE_BUNDLE_NAME "OrcaSlicer Profile Validator"
+            MACOSX_BUNDLE_BUNDLE_NAME "ANYRAID-ORCA Profile Validator"
             MACOSX_BUNDLE_BUNDLE_VERSION "${SLIC3R_VERSION}"
             MACOSX_BUNDLE_SHORT_VERSION_STRING "${SLIC3R_VERSION}"
-            MACOSX_BUNDLE_IDENTIFIER "com.orcaslicer.OrcaSlicer.profile-validator"
-            MACOSX_BUNDLE_COPYRIGHT "© 2026 OrcaSlicer Pte Ltd All Rights Reserved"
-            MACOSX_BUNDLE_GUI_IDENTIFIER "com.orcaslicer.OrcaSlicer.profile-validator"
+            MACOSX_BUNDLE_IDENTIFIER "com.anyraid.anyraidorca.profile-validator"
+            MACOSX_BUNDLE_COPYRIGHT "© 2026 ANYRAID"
+            MACOSX_BUNDLE_GUI_IDENTIFIER "com.anyraid.anyraidorca.profile-validator"
         )
     else()
         add_executable(OrcaSlicer_profile_validator dev-utils/OrcaSlicer_profile_validator.cpp)
@@ -126,6 +126,10 @@ if (WIN32)
     add_library(OrcaSlicer SHARED OrcaSlicer.cpp OrcaSlicer.hpp)
 else ()
     add_executable(OrcaSlicer OrcaSlicer.cpp OrcaSlicer.hpp)
+endif ()
+
+if (APPLE)
+    set_target_properties(OrcaSlicer PROPERTIES OUTPUT_NAME "${SLIC3R_APP_KEY}")
 endif ()
 
 if (MINGW)
@@ -152,8 +156,7 @@ endif ()
 
 if (NOT WIN32 AND NOT APPLE)
     # Binary name on unix like systems (Linux, Unix)
-    set_target_properties(OrcaSlicer PROPERTIES OUTPUT_NAME "orca-slicer")
-    set(SLIC3R_APP_CMD "orca-slicer")
+    set_target_properties(OrcaSlicer PROPERTIES OUTPUT_NAME "${SLIC3R_APP_CMD}")
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/dev-utils/platform/unix/build_linux_image.sh.in ${CMAKE_CURRENT_BINARY_DIR}/build_linux_image.sh USE_SOURCE_PERMISSIONS @ONLY)
 endif ()
 
@@ -208,7 +211,7 @@ if (WIN32)
     target_compile_definitions(OrcaSlicer_app_gui PRIVATE "$<$<NOT:$<CONFIG:RelWithDebInfo>>:SLIC3R_WRAPPER_NOCONSOLE>")
     add_dependencies(OrcaSlicer_app_gui OrcaSlicer)
     set_target_properties(OrcaSlicer_app_gui PROPERTIES
-        OUTPUT_NAME "orca-slicer"
+        OUTPUT_NAME "${SLIC3R_APP_CMD}"
         WIN32_EXECUTABLE "$<NOT:$<CONFIG:RelWithDebInfo>>"
     )
     target_link_libraries(OrcaSlicer_app_gui PRIVATE boost_headeronly)
@@ -307,7 +310,7 @@ else ()
     if (APPLE AND NOT CMAKE_MACOSX_BUNDLE)
         # On OSX, the name of the binary matches the name of the Application.
         add_custom_command(TARGET OrcaSlicer POST_BUILD
-            COMMAND ln -sf OrcaSlicer orca-slicer
+            COMMAND ln -sf "${SLIC3R_APP_KEY}" "${SLIC3R_APP_CMD}"
             WORKING_DIRECTORY "$<TARGET_FILE_DIR:OrcaSlicer>"
             VERBATIM)
     endif ()
@@ -322,16 +325,16 @@ else ()
     endif ()
     if (CMAKE_MACOSX_BUNDLE)
         if (CMAKE_CONFIGURATION_TYPES)
-            set(BIN_RESOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/OrcaSlicer.app/Contents/Resources")
-            set(BIN_DIR "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/OrcaSlicer.app/Contents/MacOS")
+            set(BIN_RESOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${SLIC3R_APP_KEY}.app/Contents/Resources")
+            set(BIN_DIR "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${SLIC3R_APP_KEY}.app/Contents/MacOS")
         else()
-            set(BIN_RESOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/OrcaSlicer.app/Contents/Resources")
-            set(BIN_DIR "${CMAKE_CURRENT_BINARY_DIR}/OrcaSlicer.app/Contents/MacOS")
+            set(BIN_RESOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/${SLIC3R_APP_KEY}.app/Contents/Resources")
+            set(BIN_DIR "${CMAKE_CURRENT_BINARY_DIR}/${SLIC3R_APP_KEY}.app/Contents/MacOS")
         endif()
         set(MACOSX_BUNDLE_ICON_FILE Icon.icns)
-        set(MACOSX_BUNDLE_BUNDLE_NAME "OrcaSlicer")
+        set(MACOSX_BUNDLE_BUNDLE_NAME "${SLIC3R_APP_NAME}")
         set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${SoftFever_VERSION})
-        set(MACOSX_BUNDLE_COPYRIGHT "Copyright(C) 2022-2024 Li Jiang All Rights Reserved")
+        set(MACOSX_BUNDLE_COPYRIGHT "Copyright(C) 2026 ANYRAID; upstream notices are retained in the license information")
         if (XCODE)
             # Xcode's CodeSign phase fails on the bundled Python runtime's dotted
             # dirs (python3.12) under Contents/MacOS. Skip it for local dev builds

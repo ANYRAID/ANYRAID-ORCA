@@ -1087,7 +1087,7 @@ void PluginsDialog::open_plugin_on_cloud(const std::string& sharing_token)
 
 void PluginsDialog::open_plugin_hub()
 {
-    std::string cloud_base_url = "https://cloud.orcaslicer.com";
+    std::string cloud_base_url;
 
     if (wxGetApp().getAgent()) {
         auto orca_agent = std::dynamic_pointer_cast<OrcaCloudServiceAgent>(wxGetApp().getAgent()->get_cloud_agent());
@@ -1098,7 +1098,7 @@ void PluginsDialog::open_plugin_hub()
     while (!cloud_base_url.empty() && cloud_base_url.back() == '/')
         cloud_base_url.pop_back();
     if (cloud_base_url.empty())
-        cloud_base_url = "https://cloud.orcaslicer.com";
+        return;
 
     wxLaunchDefaultBrowser(wxString::FromUTF8(cloud_base_url + "/app/plugins/plugin-hub"));
 }

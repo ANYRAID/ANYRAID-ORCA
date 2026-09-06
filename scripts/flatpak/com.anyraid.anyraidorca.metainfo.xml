@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+    <id>com.anyraid.anyraidorca</id>
+    <launchable type="desktop-id">com.anyraid.anyraidorca.desktop</launchable>
+    <name>ANYRAID-ORCA</name>
+    <summary>Open-source slicing for ANYRAID workflows</summary>
+    <developer id="com.anyraid">
+        <name>ANYRAID</name>
+    </developer>
+    <url type="homepage">https://github.com/ANYRAID/ANYRAID-ORCA</url>
+    <url type="help">https://github.com/ANYRAID/ANYRAID-ORCA</url>
+    <url type="bugtracker">https://github.com/ANYRAID/ANYRAID-ORCA/issues</url>
+    <url type="vcs-browser">https://github.com/ANYRAID/ANYRAID-ORCA</url>
+    <metadata_license>0BSD</metadata_license>
+    <project_license>AGPL-3.0-only</project_license>
+    <content_rating type="oars-1.1" />
+    <requires>
+        <display_length compare="gt">768</display_length>
+    </requires>
+    <recommends>
+        <control>keyboard</control>
+        <control>pointing</control>
+    </recommends>
+    <description>
+        <p>ANYRAID-ORCA is a branded derivative of OrcaSlicer for ANYRAID development workflows.
+            It remains free and open-source software for FDM printing and retains the upstream
+            project and third-party license notices.</p>
+        <p>Key features include advanced calibration tools, adaptive layer heights, tree supports,
+            multi-material support, and an intuitive interface for both beginners and experts.
+            The underlying OrcaSlicer technology also provides network printing capabilities for
+            compatible printers.</p>
+    </description>
+    <branding>
+        <color type="primary" scheme_preference="light">#009688</color>
+        <color type="primary" scheme_preference="dark">#00695C</color>
+    </branding>
+    <releases>
+        <release version="2.5.0-dev" date="2026-06-22" type="development">
+            <url type="details">https://github.com/ANYRAID/ANYRAID-ORCA</url>
+            <description>
+                <p>See the release page for detailed changelog.</p>
+            </description>
+        </release>
+        <release version="2.3.2" date="2025-03-23">
+            <url type="details">https://github.com/ANYRAID/ANYRAID-ORCA/releases</url>
+            <description>
+                <p>See the release page for detailed changelog.</p>
+            </description>
+        </release>
+    </releases>
+</component>

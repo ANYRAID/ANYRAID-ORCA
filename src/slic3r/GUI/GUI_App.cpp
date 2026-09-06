@@ -272,7 +272,7 @@ bool is_associate_files(std::wstring extend)
     wchar_t app_path[MAX_PATH];
     ::GetModuleFileNameW(nullptr, app_path, sizeof(app_path));
 
-    std::wstring prog_id             = L" Orca.Slicer.1";
+    std::wstring prog_id             = L"ANYRAID.ORCA.1";
     std::wstring reg_base            = L"Software\\Classes";
     std::wstring reg_extension       = reg_base + L"\\." + extend;
 
@@ -437,37 +437,6 @@ private:
 };
 
 #ifdef __linux__
-static void migrate_flatpak_legacy_datadir(const boost::filesystem::path &data_dir_path)
-{
-    if(!boost::filesystem::exists("/.flatpak-info"))
-        return; // Not running as a Flatpak, nothing to migrate.
-    
-    namespace fs = boost::filesystem;
-
-    if (fs::exists(data_dir_path)){
-        std::cerr << "New Flatpak data dir: " << data_dir_path << std::endl;
-        return;
-    }
-    std::cerr << "Migrating Flatpak data dir: " << data_dir_path << std::endl;
-
-    std::string legacy_data_dir_str = data_dir_path.string();
-    boost::replace_first(legacy_data_dir_str, "com.orcaslicer.OrcaSlicer", "io.github.softfever.OrcaSlicer");
-    const fs::path legacy_data_dir(legacy_data_dir_str);
-
-    std::cerr << "Legacy Flatpak data dir: " << legacy_data_dir << std::endl;
-
-    if ( ! fs::exists(legacy_data_dir) || ! fs::is_directory(legacy_data_dir))
-        return;
-    std::cerr << "Legacy Flatpak data dir exists: " << legacy_data_dir << std::endl;
-
-    try {
-        std::cerr << "Migrating Flatpak data dir from " << legacy_data_dir << " to " << data_dir_path << std::endl;
-        copy_directory_recursively(legacy_data_dir, data_dir_path);
-    } catch (const std::exception &ex) {
-        std::cerr << "Failed to migrate Flatpak data dir from " << legacy_data_dir << " to " << data_dir_path << ": " << ex.what() << std::endl;
-    }
-}
-
 bool static check_old_linux_datadir(const wxString& app_name) {
     // If we are on Linux and the datadir does not exist yet, look into the old
     // location where the datadir was before version 2.3. If we find it there,
@@ -991,33 +960,6 @@ void GUI_App::post_init()
               // this->check_privacy_version(0);
               request_user_handle(0, cloud_provider);
             }
-        });
-    }
-
-    // Orca: notify users upgrading from a pre-2.4.0 version that profile syncing
-    // moved from Bambu Cloud to Orca Cloud.
-    if (is_editor() && m_last_config_version && m_last_config_version->valid()
-        && *m_last_config_version < Semver(2, 4, 0)) {
-        CallAfter([] {
-            const wxString wiki_url = "https://www.orcaslicer.com/wiki/user_profiles/user_profiles.html#profiles-missing-after-updating-from-bambu-cloud";
-            MessageDialog dlg(nullptr,
-                _L("Since version 2.4.0, OrcaSlicer syncs user profiles through Orca Cloud instead of Bambu Cloud.\n\n"
-                   "To migrate your existing profiles, log in to Orca Cloud and they will be transferred automatically. "
-                   "To learn more about how OrcaSlicer stores and syncs your profiles, or to migrate your presets manually, check out our wiki.\n\n"
-                   "If you did not use Bambu Cloud to sync profiles, this change does not affect you and you can safely ignore this message."),
-                _L("Profile syncing change"),
-                wxOK,
-                "",
-                _L("Learn more"),
-                [wiki_url](const wxString &) { wxLaunchDefaultBrowser(wiki_url); });
-            // Hack: the "Learn more" link renders the message in a wxHtmlWindow whose
-            // height is underestimated for multi-paragraph text, leaving a scrollbar.
-            // The html sits in a proportion-1 sizer chain, so grow the dialog (never
-            // shrink it below its content width) to give the text enough room.
-            const wxSize sz = dlg.GetSize();
-            dlg.SetSize(std::max(sz.x, dlg.FromDIP(280)), std::max(sz.y, dlg.FromDIP(200)));
-            dlg.CenterOnParent();
-            dlg.ShowModal();
         });
     }
 
@@ -2547,7 +2489,6 @@ void GUI_App::init_app_config()
                 if (! wxGetEnv(wxS("XDG_CONFIG_HOME"), &dir) || dir.empty() )
                     dir = wxFileName::GetHomeDir() + wxS("/.config");
                 data_dir_path = boost::filesystem::path((dir + "/" + GetAppName()).ToUTF8().data());
-                migrate_flatpak_legacy_datadir(data_dir_path);
                 set_data_dir(data_dir_path.string());
             #endif
             if (!boost::filesystem::exists(data_dir_path)){
@@ -3024,7 +2965,7 @@ bool GUI_App::on_init_inner()
             RichMessageDialog
                 dlg(nullptr,
                     wxString::Format(_L("%s\nDo you want to continue?"), msg),
-                    "OrcaSlicer", wxICON_QUESTION | wxYES_NO);
+                    "ANYRAID-ORCA", wxICON_QUESTION | wxYES_NO);
             dlg.ShowCheckBox(_L("Remember my choice"));
             if (dlg.ShowModal() != wxID_YES) return false;
 
@@ -6037,6 +5978,10 @@ void GUI_App::check_new_version_sf(bool show_tips, int by_user)
     AppConfig* app_config = wxGetApp().app_config;
     bool       check_stable_only = app_config->get_bool("check_stable_update_only");
     auto version_check_url = app_config->version_check_url();
+    if (version_check_url.empty()) {
+        BOOST_LOG_TRIVIAL(info) << "ANYRAID-ORCA online version checking is disabled";
+        return;
+    }
 
     UpdaterQuery query{
         detect_updater_iid(app_config),
@@ -7315,8 +7260,10 @@ void GUI_App::check_bundle_updates()
 
 bool GUI_App::unsubscribe_bundle(const std::string& id)
 {
+    if (!m_agent)
+        return false;
     auto orca_agent = std::dynamic_pointer_cast<OrcaCloudServiceAgent>(m_agent->get_cloud_agent());
-    return orca_agent->unsubscribe_bundle(id);
+    return orca_agent && orca_agent->unsubscribe_bundle(id);
 }
 
 void GUI_App::start_sync_user_preset(bool with_progress_dlg)
@@ -9829,8 +9776,8 @@ void GUI_App::associate_files(std::wstring extend)
     ::GetModuleFileNameW(nullptr, app_path, sizeof(app_path));
 
     std::wstring prog_path = L"\"" + std::wstring(app_path) + L"\"";
-    std::wstring prog_id = L" Orca.Slicer.1";
-    std::wstring prog_desc = L"OrcaSlicer";
+    std::wstring prog_id = L"ANYRAID.ORCA.1";
+    std::wstring prog_desc = L"ANYRAID-ORCA";
     std::wstring prog_command = prog_path + L" \"%1\"";
     std::wstring reg_base = L"Software\\Classes";
     std::wstring reg_extension = reg_base + L"\\." + extend;
@@ -9856,8 +9803,8 @@ void GUI_App::disassociate_files(std::wstring extend)
     ::GetModuleFileNameW(nullptr, app_path, sizeof(app_path));
 
     std::wstring prog_path = L"\"" + std::wstring(app_path) + L"\"";
-    std::wstring prog_id = L" Orca.Slicer.1";
-    std::wstring prog_desc = L"OrcaSlicer";
+    std::wstring prog_id = L"ANYRAID.ORCA.1";
+    std::wstring prog_desc = L"ANYRAID-ORCA";
     std::wstring prog_command = prog_path + L" \"%1\"";
     std::wstring reg_base = L"Software\\Classes";
     std::wstring reg_extension = reg_base + L"\\." + extend;

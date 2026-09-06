@@ -1,4 +1,4 @@
-app-id: com.orcaslicer.OrcaSlicer
+app-id: com.anyraid.anyraidorca
 runtime: org.gnome.Platform
 runtime-version: "50"
 sdk: org.gnome.Sdk
@@ -6,7 +6,7 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm21
 command: entrypoint
 separate-locales: true
-rename-icon: OrcaSlicer
+rename-icon: ANYRAID-ORCA
 build-options:
   append-path: /usr/lib/sdk/llvm21/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm21/lib
@@ -27,14 +27,14 @@ finish-args:
   # Network shares (CIFS/NFS) are commonly mounted under /mnt, which the default
   # finish-args don't grant; without it, opening a model from such a share fails
   # with "The file does not contain any geometry data."
-  # https://github.com/flathub/com.orcaslicer.OrcaSlicer/issues/2
+  # Work around Flatpak's lack of access to host fontconfig caches.
   - --filesystem=/mnt
   - --filesystem=/run/spnav.sock:ro
   # Allow read-only access to OrcaSlicer's legacy config and cache directories (if they exist) for migration purposes.
   - --filesystem=~/.var/app/io.github.softfever.OrcaSlicer:ro
   # Allow OrcaSlicer to own and talk to instance-check D-Bus names (InstanceCheck.cpp)
-  - --talk-name=com.orcaslicer.OrcaSlicer.InstanceCheck.*
-  - --own-name=com.orcaslicer.OrcaSlicer.InstanceCheck.*
+  - --talk-name=com.anyraid.anyraidorca.InstanceCheck.*
+  - --own-name=com.anyraid.anyraidorca.InstanceCheck.*
   - --system-talk-name=org.freedesktop.UDisks2
   - --env=SPNAV_SOCKET=/run/spnav.sock
 
@@ -375,7 +375,7 @@ modules:
       # only exists in here, so the swap is a build step instead, against the
       # profiles the install above copied into /app.
       - cmake --build build_flatpak --target generate_system_cache -j$FLATPAK_BUILDER_N_JOBS
-      - ./scripts/build_preset_cache.sh -n -b build_flatpak /app/share/OrcaSlicer/profiles
+      - ./scripts/build_preset_cache.sh -n -b build_flatpak /app/share/ANYRAID-ORCA/profiles
 
     cleanup:
       - /include
@@ -383,7 +383,7 @@ modules:
     post-install:
 
       - | # Desktop integration files
-        install -Dm644 -t /app/share/icons/hicolor/scalable/apps/ resources/images/OrcaSlicer.svg
+        install -Dm644 resources/images/ANYRAID-ORCA_192px.png /app/share/icons/hicolor/192x192/apps/${FLATPAK_ID}.png
         install -Dm644 ${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
         desktop-file-edit --set-key=Exec --set-value="entrypoint %U" /app/share/applications/${FLATPAK_ID}.desktop
         install -Dm755 entrypoint /app/bin
@@ -393,8 +393,8 @@ modules:
 
       - | # Install fonts into fontconfig-scanned directory so Pango finds them
         # before initialization (avoids ensure_faces crash from AddPrivateFont)
-        install -Dm644 -t /app/share/fonts/OrcaSlicer/ resources/fonts/*.ttf
-        fc-cache -f /app/share/fonts/OrcaSlicer/
+        install -Dm644 -t /app/share/fonts/ANYRAID-ORCA/ resources/fonts/*.ttf
+        fc-cache -f /app/share/fonts/ANYRAID-ORCA/
 
     sources:
       # OrcaSlicer source tree (specific dirs to avoid copying .git from worktree)
@@ -429,7 +429,7 @@ modules:
 
       # AppData metainfo for GNOME Software & Co.
       - type: file
-        path: com.orcaslicer.OrcaSlicer.metainfo.xml
+        path: com.anyraid.anyraidorca.metainfo.xml
 
       # Startup script
       - type: file

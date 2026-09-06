@@ -139,7 +139,7 @@ TroubleshootDialog::TroubleshootDialog()
 
     auto build = new Button(this, wxString(GIT_COMMIT_HASH));
     build->SetStyle(ButtonStyle::Regular, ButtonType::Window);
-    auto hash_url = "https://github.com/OrcaSlicer/OrcaSlicer/commit/" + wxString(GIT_COMMIT_HASH);
+    auto hash_url = "https://github.com/ANYRAID/ANYRAID-ORCA/commit/" + wxString(GIT_COMMIT_HASH);
     build->SetToolTip(hash_url);
     build->Bind(wxEVT_BUTTON, [hash_url](wxCommandEvent &e) {
          wxLaunchDefaultBrowser(hash_url);
@@ -186,7 +186,8 @@ TroubleshootDialog::TroubleshootDialog()
         Fit();
     });
 
-    auto link_wiki = new HyperLink(this, _L("Wiki Guide"), "https://www.orcaslicer.com/wiki/troubleshoot_center");
+    auto link_wiki = new HyperLink(this, _L("Wiki Guide"), "");
+    link_wiki->Hide();
 
     // RIGHT SIZER //////////////////////
 
@@ -248,7 +249,7 @@ TroubleshootDialog::TroubleshootDialog()
             return out;
         };
 
-        wxString url = "https://github.com/OrcaSlicer/OrcaSlicer/issues/new?template=bug_report.yml";
+        wxString url = "https://github.com/ANYRAID/ANYRAID-ORCA/issues/new?template=bug_report.yml";
         wxString os = GetOStype();
         if(!os.IsEmpty())
             url += "&os_type=%22" + os +"%22";
@@ -296,7 +297,7 @@ TroubleshootDialog::TroubleshootDialog()
     auto log_pack_btn = create_btn(_L("Pack") + "...", "");
     log_pack_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent &e) {
         auto data_dir   = boost::filesystem::path(Slic3r::data_dir());
-        ExportAsZip({wxString((data_dir / "log").string())}, "OrcaSlicer_Logs_" + GetTimestamp());
+        ExportAsZip({wxString((data_dir / "log").string())}, "ANYRAID-ORCA_Logs_" + GetTimestamp());
     });
     log_pack_szr->Add(log_pack_btn, 0, wxALIGN_CENTER_VERTICAL);
 
@@ -712,7 +713,7 @@ wxString TroubleshootDialog::GetPackageType()
     //if (wxFileExists("/usr/bin/pacman")) return "Arch (pacman)";
 
     wxString path = wxStandardPaths::Get().GetExecutablePath();
-    if (path.Contains("OrcaSlicer/build")) return "Local Build";
+    if (path.Contains("ANYRAID-ORCA/build") || path.Contains("OrcaSlicer/build")) return "Local Build";
     //if (path.StartsWith("/usr/local"))   return "Compiled (local)";
     if (path.StartsWith("/opt"))           return "Third-party";
 
@@ -721,7 +722,7 @@ wxString TroubleshootDialog::GetPackageType()
     wxString path = wxStandardPaths::Get().GetExecutablePath();
     wxString dir  = wxPathOnly(path);
 
-    if (path.Contains("OrcaSlicer/build"))
+    if (path.Contains("ANYRAID-ORCA/build") || path.Contains("OrcaSlicer/build"))
         return "Local Build";
 
     //if (wxDirExists(dir + "/../_MASReceipt"))
@@ -730,7 +731,7 @@ wxString TroubleshootDialog::GetPackageType()
     if (path.Contains("/Cellar/") || wxGetEnv("HOMEBREW_PREFIX", nullptr))
         return "Homebrew";
 
-    if (path.StartsWith("/Volumes/OrcaSlicer")) // running from .dmg
+    if (path.StartsWith("/Volumes/ANYRAID-ORCA") || path.StartsWith("/Volumes/OrcaSlicer")) // running from .dmg
         return "Temporary";
 
     if (path.StartsWith("/Applications"))
