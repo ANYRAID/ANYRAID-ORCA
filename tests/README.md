@@ -1,4 +1,4 @@
-# OrcaSlicer tests
+# ANYRAID-ORCA tests
 
 Use this directory's [CATCH2.md](CATCH2.md) reference and the repository build scripts when building, running, or writing tests.
 

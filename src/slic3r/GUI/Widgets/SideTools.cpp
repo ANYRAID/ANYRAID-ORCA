@@ -274,7 +274,8 @@ SideTools::SideTools(wxWindow *parent, wxWindowID id, const wxPoint &pos, const 
     wxBoxSizer* connection_sizer_V = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* connection_sizer_H = new wxBoxSizer(wxHORIZONTAL);
 
-    m_hyperlink = new HyperLink(m_connection_info, _L("Failed to connect to the server"), wxT(""));
+    m_hyperlink = new HyperLink(m_connection_info, _L("Failed to connect to the server"),
+                                wxT("https://github.com/ANYRAID/ANYRAID-ORCA"));
 
     m_more_err_open = ScalableBitmap(this, "monitir_err_open", 16);
     m_more_err_close = ScalableBitmap(this, "monitir_err_close", 16);

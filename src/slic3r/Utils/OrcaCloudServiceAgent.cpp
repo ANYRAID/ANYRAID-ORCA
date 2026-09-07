@@ -530,7 +530,7 @@ void OrcaCloudServiceAgent::configure_urls(AppConfig* app_config)
     api_base_url.clear();
     auth_base_url.clear();
     cloud_base_url.clear();
-    auth_headers["apikey"].clear();
+    auth_headers.erase("apikey");
 }
 
 void OrcaCloudServiceAgent::set_api_base_url(const std::string& url) { api_base_url = url; }
