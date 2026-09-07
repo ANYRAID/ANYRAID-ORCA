@@ -219,7 +219,8 @@ function verify_python_runtime() {
         exit 1
     fi
     echo "  Verifying bundled Python runtime in $(basename "$app")..."
-    local executable="$app/Contents/MacOS/$(basename "$app" .app)"
+    local executable
+    executable="$app/Contents/MacOS/$(basename "$app" .app)"
     local bad
     bad=$(otool -arch all -L "$pybin" "$executable" | grep "libpython" | grep -v "@rpath/" || true)
     if [ -n "$bad" ]; then
