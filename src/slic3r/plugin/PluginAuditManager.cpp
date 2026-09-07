@@ -279,14 +279,19 @@ std::vector<std::string> PluginAuditManager::default_denied_filenames()
 {
     // AppConfig::config_path() picks .conf vs .ini on the USE_JSON_CONFIG ifdef and the app key
     // on its mode, and is a non-static member we cannot call without an instance.  Denying all
-    // four names is cheaper and more robust than replicating that; the two unused names cost one
-    // string comparison each.  Single-sourced here so install_hook() and the tests seed from the
-    // same list and cannot drift apart.
+    // current editor/viewer names with both extensions is cheaper and more robust than replicating
+    // that. Keep the pre-rebrand OrcaSlicer names protected as well: an existing user data directory
+    // may still contain those files, and plugins must not gain access to their secrets after migration.
+    // Single-sourced here so install_hook() and the tests seed from the same list and cannot drift.
     return {
         SLIC3R_APP_KEY ".conf",
         GCODEVIEWER_APP_KEY ".conf",
         SLIC3R_APP_KEY ".ini",
         GCODEVIEWER_APP_KEY ".ini",
+        "OrcaSlicer.conf",
+        "OrcaSlicerGcodeViewer.conf",
+        "OrcaSlicer.ini",
+        "OrcaSlicerGcodeViewer.ini",
         secret_constants::USER_SECRET_FILENAME,
     };
 }
@@ -971,7 +976,7 @@ void PluginAuditManager::install_hook()
     // OrcaCloudServiceAgent::set_config_dir runs during networking init — neither strictly
     // precedes the other, and if Orca cloud never initializes an owner-registered token deny
     // would never exist at all.  default_denied_filenames() is the single source of that list
-    // (see its comment for why all four config names are denied); the tests seed from it too.
+    // (see its comment for why current and legacy config names are denied); the tests seed from it too.
     for (const auto& name : default_denied_filenames())
         add_denied_filename(name);
 
