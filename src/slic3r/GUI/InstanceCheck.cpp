@@ -493,7 +493,7 @@ void OtherInstanceMessageHandler::handle_message(const std::string& message)
 
 	std::vector<boost::filesystem::path> paths;
 	std::vector<std::string> downloads;
-	boost::regex re(R"(^(orcaslicer|prusaslicer|cura|bambustudio):\/\/open[\/]?\?file=)", boost::regbase::icase);
+	boost::regex re(R"(^(anyraid-orca|orcaslicer|prusaslicer|cura|bambustudio):\/\/open[\/]?\?file=)", boost::regbase::icase);
 	boost::regex re2(R"(^(bambustudioopen):\/\/)", boost::regex::icase);
 	boost::smatch results;
 
@@ -630,7 +630,7 @@ void OtherInstanceMessageHandler::listen()
 	    return;
 	}
 	if (DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER != name_req_val) {
-		BOOST_LOG_TRIVIAL(error) << "Not primary owner of DBus name - probably another OrcaSlicer instance is running.";
+		BOOST_LOG_TRIVIAL(error) << "Not primary owner of DBus name - probably another ANYRAID-ORCA instance is running.";
 	    BOOST_LOG_TRIVIAL(error) << "Dbus Messages listening terminating.";
 	    dbus_connection_unref(conn);
 	    return;

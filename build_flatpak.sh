@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# OrcaSlicer Flatpak Build Script
-# This script builds and packages OrcaSlicer as a Flatpak package locally
+# ANYRAID-ORCA Flatpak Build Script
+# This script builds and packages ANYRAID-ORCA as a Flatpak package locally
 # Based on the GitHub Actions workflow in .github/workflows/build_all.yml
 
 set -e
@@ -30,7 +30,7 @@ CACHE_DIR=".flatpak-builder"
 show_help() {
     echo "Usage: $0 [OPTIONS]"
     echo ""
-    echo "Build OrcaSlicer as a Flatpak package"
+    echo "Build ANYRAID-ORCA as a Flatpak package"
     echo ""
     echo "Options:"
     echo "  -a, --arch ARCH        Target architecture (x86_64, aarch64) [default: $ARCH]"
@@ -120,7 +120,7 @@ if ! [[ "$JOBS" =~ ^[1-9][0-9]*$ ]]; then
     exit 1
 fi
 
-echo -e "${BLUE}OrcaSlicer Flatpak Build Script${NC}"
+echo -e "${BLUE}ANYRAID-ORCA Flatpak Build Script${NC}"
 echo -e "${BLUE}================================${NC}"
 echo -e "Architecture: ${GREEN}$ARCH${NC}"
 echo -e "Build directory: ${GREEN}$BUILD_DIR${NC}"
@@ -260,12 +260,15 @@ if [[ ! -f "./scripts/flatpak/com.anyraid.anyraidorca.yml" ]]; then
     exit 1
 fi
 
+echo -e "${YELLOW}Packing deps/ for the manifest...${NC}"
+./scripts/flatpak/make_deps_tar.sh
+
 # Build the Flatpak
 echo -e "${YELLOW}Building Flatpak package...${NC}"
 echo -e "This may take a while (30+ minutes depending on your system)..."
 echo ""
 
-BUNDLE_NAME="OrcaSlicer-Linux-flatpak_${VER}_${ARCH}.flatpak"
+BUNDLE_NAME="ANYRAID-ORCA-Linux-flatpak_${VER}_${ARCH}.flatpak"
 
 # Remove any existing bundle
 rm -f "$BUNDLE_NAME"

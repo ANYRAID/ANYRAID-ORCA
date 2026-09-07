@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build OrcaSlicer Flatpak locally using Docker with the same container image
+# Build ANYRAID-ORCA Flatpak locally using Docker with the same container image
 # as the CI (build_all.yml).
 #
 # Usage:
@@ -84,9 +84,9 @@ if [ -z "$VER_PURE" ]; then
 fi
 VER="V${VER_PURE}"
 GIT_COMMIT_HASH=$(git rev-parse HEAD)
-BUNDLE_NAME="OrcaSlicer-Linux-flatpak_${VER}_${ARCH}.flatpak"
+BUNDLE_NAME="ANYRAID-ORCA-Linux-flatpak_${VER}_${ARCH}.flatpak"
 
-echo "=== OrcaSlicer Flatpak Build ==="
+echo "=== ANYRAID-ORCA Flatpak Build ==="
 echo "  Version:    ${VER} (${VER_PURE})"
 echo "  Commit:     ${GIT_COMMIT_HASH}"
 echo "  Arch:       ${ARCH}"
@@ -114,13 +114,16 @@ trap 'rm -f "$PROJECT_ROOT/$MANIFEST_DOCKER"' EXIT
         cat
     fi
 } < "$MANIFEST_SRC" | \
-sed "/name: OrcaSlicer/{
+sed "/name: ANYRAID-ORCA/{
     n
     s|^\([[:space:]]*\)buildsystem: simple|\1buildsystem: simple\\
 \1build-options:\\
 \1  env:\\
 \1    git_commit_hash: \"$GIT_COMMIT_HASH\"|
 }" > "$MANIFEST_DOCKER"
+
+# ---------- pack deps/ ----------
+./scripts/flatpak/make_deps_tar.sh
 
 # ---------- run build in Docker ----------
 DOCKER="${DOCKER:-docker}"

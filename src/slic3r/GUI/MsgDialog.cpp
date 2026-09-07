@@ -456,7 +456,7 @@ ErrorDialog::ErrorDialog(wxWindow *parent, const wxString &temp_msg, bool has_co
     add_msg_content(this, content_sizer, msg, has_code_excerpts);
 
 	// Use a small bitmap for code excerpts, which cannot wrap and so need the width.
-	logo->SetBitmap(create_scaled_bitmap("OrcaSlicer_192px_grayscale.png", this, has_code_excerpts ? 48 : /*1*/64));
+	logo->SetBitmap(create_scaled_bitmap("ANYRAID-ORCA_192px_grayscale.png", this, has_code_excerpts ? 48 : /*1*/64));
 
     SetMaxSize(MSG_DLG_MAX_SIZE);
 

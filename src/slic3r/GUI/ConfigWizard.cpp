@@ -1474,7 +1474,7 @@ void PageTemperatures::apply_custom_config(DynamicPrintConfig& config)
 
 ConfigWizardIndex::ConfigWizardIndex(wxWindow *parent)
     : wxPanel(parent)
-    , bg(ScalableBitmap(parent, "OrcaSlicer_192px_transparent.png", 192))
+    , bg(ScalableBitmap(parent, "ANYRAID-ORCA_192px_transparent.png", 192))
     , bullet_black(ScalableBitmap(parent, "bullet_black.png"))
     , bullet_blue(ScalableBitmap(parent, "bullet_blue.png"))
     , bullet_white(ScalableBitmap(parent, "bullet_white.png"))
@@ -2752,7 +2752,7 @@ ConfigWizard::ConfigWizard(wxWindow *parent)
     });
 
     if (wxLinux_gtk3)
-        this->Bind(wxEVT_SHOW, [this, vsizer](const wxShowEvent& e) {
+        this->Bind(wxEVT_SHOW, [](const wxShowEvent& e) {
             ;
         });
 

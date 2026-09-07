@@ -494,13 +494,13 @@ void MediaPlayCtrl::ToggleStream()
                     DownloadProgressDialog2(MediaPlayCtrl *ctrl) : DownloadProgressDialog(_L("Downloading Virtual Camera Tools")), ctrl(ctrl) {}
                     struct UpgradeNetworkJob2 : UpgradeNetworkJob
                     {
-                        UpgradeNetworkJob2(std::shared_ptr<ProgressIndicator> pri) : UpgradeNetworkJob() {
+                        UpgradeNetworkJob2() {
                             name         = "cameratools";
                             package_name = "camera_tools.zip";
                         }
                     };
-                    std::shared_ptr<UpgradeNetworkJob> make_job(std::shared_ptr<ProgressIndicator> pri)
-                    { return std::make_shared<UpgradeNetworkJob2>(pri); }
+                    std::unique_ptr<UpgradeNetworkJob> make_job() override
+                    { return std::make_unique<UpgradeNetworkJob2>(); }
                     void                               on_finish() override
                     {
                         ctrl->CallAfter([ctrl = this->ctrl] { ctrl->ToggleStream(); });
@@ -514,7 +514,7 @@ void MediaPlayCtrl::ToggleStream()
         }
     }
     if (!url.empty() && wxGetApp().app_config->get("not_show_vcamera_stop_prev") != "1") {
-        MessageDialog dlg(this->GetParent(), _L("Another virtual camera is running.\nOrca Slicer supports only a single virtual camera.\nDo you want to stop this virtual camera?"), _L("Warning"),
+        MessageDialog dlg(this->GetParent(), _L("Another virtual camera is running.\nANYRAID-ORCA supports only a single virtual camera.\nDo you want to stop this virtual camera?"), _L("Warning"),
                                  wxYES | wxCANCEL | wxICON_INFORMATION);
         dlg.show_dsa_button();
         auto          res = dlg.ShowModal();

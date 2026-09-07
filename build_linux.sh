@@ -214,7 +214,7 @@ function get_docker_runner_image() {
     recipe_hash=$(find "${SCRIPT_PATH}/build_linux.sh" "${SCRIPT_PATH}/scripts/linux.d" -type f -print0 | sort -z | xargs -0 cat | sha256sum | cut -c1-12)
     sanitized_base_image=$(echo "${base_image}" | tr '/:@' '---' | tr -cs 'A-Za-z0-9_.-' '-')
     sanitized_cmake_version=$(echo "${docker_cmake_version:-system}" | tr -cs 'A-Za-z0-9_.-' '-')
-    echo "orcaslicer-linux-builder:${sanitized_base_image}-cmake-${sanitized_cmake_version}-${recipe_hash}"
+    echo "anyraid-orca-linux-builder:${sanitized_base_image}-cmake-${sanitized_cmake_version}-${recipe_hash}"
 }
 
 function docker_runner_dockerfile() {
@@ -541,7 +541,7 @@ if [[ -n "${BUILD_DEPS}" ]] ; then
 fi
 
 if [[ -n "${BUILD_ORCA}" ]] || [[ -n "${BUILD_TESTS}" ]] ; then
-    echo "Configuring OrcaSlicer..."
+    echo "Configuring ANYRAID-ORCA..."
     if [[ -n "${CLEAN_BUILD}" ]] ; then
         print_and_run rm -fr $BUILD_DIR
     fi
@@ -563,7 +563,7 @@ if [[ -n "${BUILD_ORCA}" ]] || [[ -n "${BUILD_TESTS}" ]] ; then
 "${BUILD_ARGS[@]}"
     echo "done"
     if [[ -n "${BUILD_ORCA}" ]]; then
-	echo "Building OrcaSlicer ..."
+	echo "Building ANYRAID-ORCA ..."
 	print_and_run cmake --build $BUILD_DIR --config "${BUILD_CONFIG}" --target OrcaSlicer
 	echo "Building OrcaSlicer_profile_validator .."
 	print_and_run cmake --build $BUILD_DIR --config "${BUILD_CONFIG}" --target OrcaSlicer_profile_validator
