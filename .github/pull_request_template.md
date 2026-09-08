@@ -24,4 +24,4 @@
 > A guide for users on how to download the artifacts from this PR.
 -->
 
-[How to Download Pull Requests Artifacts for Testing](https://www.orcaslicer.com/wiki/how_to_download_pr_artifacts)
+Download test artifacts from the checks attached to this pull request.

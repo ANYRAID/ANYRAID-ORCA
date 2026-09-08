@@ -191,7 +191,7 @@ std::vector<PluginCapabilityId> capabilities_in_use(Preset::Type type, const Pre
 
 static std::string resolve_cloud_base_url()
 {
-    std::string cloud_base_url = "https://cloud.orcaslicer.com";
+    std::string cloud_base_url;
     if (auto agent = GUI::wxGetApp().getAgent()) {
         if (auto orca_agent = std::dynamic_pointer_cast<OrcaCloudServiceAgent>(agent->get_cloud_agent())) {
             if (!orca_agent->get_cloud_base_url().empty())
@@ -205,7 +205,8 @@ std::string create_full_ref(const PluginCapabilityRef& ref) { return ref.name + 
 
 std::string resolve_recovery_url(const PluginCapabilityRef& ref)
 {
-    return resolve_cloud_base_url() + "/app/plugins/plugin-hub?search=" + Http::url_encode(ref.name);
+    const std::string cloud_base_url = resolve_cloud_base_url();
+    return cloud_base_url.empty() ? std::string() : cloud_base_url + "/app/plugins/plugin-hub?search=" + Http::url_encode(ref.name);
 }
 
 // {present, enabled}; {false, false} when the plugin is not loaded or does not provide the capability.
@@ -475,11 +476,15 @@ void open_missing_plugins_on_cloud(const std::vector<std::string>& local_refs)
 {
     if (local_refs.size() == 1) {
         if (const auto ref = parse_capability_ref(local_refs.front())) {
-            wxLaunchDefaultBrowser(GUI::from_u8(resolve_recovery_url(*ref)), wxBROWSER_NEW_WINDOW);
+            const std::string recovery_url = resolve_recovery_url(*ref);
+            if (!recovery_url.empty())
+                wxLaunchDefaultBrowser(GUI::from_u8(recovery_url), wxBROWSER_NEW_WINDOW);
             return;
         }
     }
-    wxLaunchDefaultBrowser(GUI::from_u8(resolve_cloud_base_url() + "/app/plugins/plugin-hub"), wxBROWSER_NEW_WINDOW);
+    const std::string cloud_base_url = resolve_cloud_base_url();
+    if (!cloud_base_url.empty())
+        wxLaunchDefaultBrowser(GUI::from_u8(cloud_base_url + "/app/plugins/plugin-hub"), wxBROWSER_NEW_WINDOW);
 }
 
 } // namespace Slic3r

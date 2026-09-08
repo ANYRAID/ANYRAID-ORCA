@@ -141,8 +141,8 @@ std::map<int, std::string> cli_errors = {
     {CLI_OBJECT_ORIENT_FAILED, "An error occurred when auto-orienting object(s)."},
     {CLI_MODIFIED_PARAMS_TO_PRINTER, "Found modified parameter in printer preset in the 3mf file, which should not be changed."},
         {CLI_FILE_VERSION_NOT_SUPPORTED, "Unsupported 3MF version. Please make sure the 3MF file was created with the official version of Bambu Studio, not a beta version."},
-    {CLI_NO_SUITABLE_OBJECTS, "One of the plate is empty or has no object fully inside it. Please check that the 3mf contains no empty plate in Orca Slicer before uploading."},
-    {CLI_VALIDATE_ERROR, "There are some incorrect slicing parameters in the 3mf. Please verify the slicing of all plates in Orca Slicer before uploading."},
+    {CLI_NO_SUITABLE_OBJECTS, "One of the plate is empty or has no object fully inside it. Please check that the 3mf contains no empty plate in ANYRAID-ORCA before uploading."},
+    {CLI_VALIDATE_ERROR, "There are some incorrect slicing parameters in the 3mf. Please verify the slicing of all plates in ANYRAID-ORCA before uploading."},
     {CLI_OBJECTS_PARTLY_INSIDE, "Some objects are located over the boundary of the heated bed."},
     {CLI_EXPORT_CACHE_DIRECTORY_CREATE_FAILED, "Failed creating directory when exporting cache data."},
     {CLI_EXPORT_CACHE_WRITE_FAILED, "Failed exporting cache data."},
@@ -1449,7 +1449,7 @@ int CLI::run(int argc, char **argv)
     }
 
     global_begin_time = (long long)Slic3r::Utils::get_current_time_utc();
-    BOOST_LOG_TRIVIAL(warning) << boost::format("cli mode, Current OrcaSlicer Version %1%")%SoftFever_VERSION;
+    BOOST_LOG_TRIVIAL(warning) << boost::format("cli mode, Current ANYRAID-ORCA Version %1%")%SoftFever_VERSION;
 
     //BBS: add plate data related logic
     PlateDataPtrs plate_data_src;
@@ -7435,7 +7435,7 @@ void CLI::print_help(bool include_print_options, PrinterTechnology printer_techn
     boost::nowide::cout
         << SLIC3R_APP_KEY <<"-"<< SoftFever_VERSION << ":"
         << std::endl
-        << "Usage: orca-slicer [ OPTIONS ] [ file.3mf/file.stl ... ]" << std::endl
+        << "Usage: anyraid-orca [ OPTIONS ] [ file.3mf/file.stl ... ]" << std::endl
         << std::endl
         << "OPTIONS:" << std::endl;
     cli_misc_config_def.print_cli_help(boost::nowide::cout, false);

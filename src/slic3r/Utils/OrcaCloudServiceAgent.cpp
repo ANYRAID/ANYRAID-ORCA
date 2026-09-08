@@ -60,11 +60,11 @@ using json = nlohmann::json;
 namespace Slic3r {
 
 namespace {
-constexpr const char* ORCA_DEFAULT_API_URL   = "api.orcaslicer.com";
-constexpr const char* ORCA_DEFAULT_AUTH_URL  = "https://auth.orcaslicer.com";
-constexpr const char* ORCA_DEFAULT_CLOUD_URL = "https://cloud.orcaslicer.com";
+constexpr const char* ORCA_DEFAULT_API_URL   = "";
+constexpr const char* ORCA_DEFAULT_AUTH_URL  = "";
+constexpr const char* ORCA_DEFAULT_CLOUD_URL = "";
 // Orca: This is a public key with no secret, used to identify the client application to the backend.
-constexpr const char* ORCA_DEFAULT_PUB_KEY = "sb_publishable_lvVe_whOi80SU9BPSxM1kA_tbt9AbR_";
+constexpr const char* ORCA_DEFAULT_PUB_KEY = "";
 
 constexpr const char* ORCA_HEALTH_PATH = "/api/v1/health";
 constexpr const char* ORCA_SYNC_PULL_PATH = "/api/v1/sync/pull";
@@ -85,13 +85,8 @@ constexpr const char* ORCA_PLUGIN_DOWNLOAD_URL = "/api/v1/plugins/download";
 
 constexpr const char* ORCA_CLOUD_LOGIN_PATH = "/orcaslicer-login";
 
-constexpr const char* CONFIG_ORCA_API_URL   = "orca_api_url";
-constexpr const char* CONFIG_ORCA_AUTH_URL  = "orca_auth_url";
-constexpr const char* CONFIG_ORCA_CLOUD_URL = "orca_cloud_url";
-constexpr const char* CONFIG_ORCA_PUB_KEY   = "orca_pub_key";
-
-constexpr const char* SECRET_STORE_SERVICE = "OrcaSlicer/Auth";
-constexpr const char* SECRET_STORE_USER    = "orca_refresh_token";
+constexpr const char* SECRET_STORE_SERVICE = "ANYRAID-ORCA/Auth";
+constexpr const char* SECRET_STORE_USER    = "anyraid_refresh_token";
 constexpr std::chrono::seconds TOKEN_REFRESH_SKEW{900}; // 15 minutes
 
 // Cross-process advisory lock serializing refresh-token rotation between Orca instances on
@@ -531,25 +526,11 @@ void OrcaCloudServiceAgent::configure_urls(AppConfig* app_config)
     // Read token storage preference
     m_use_encrypted_token_file = app_config->get_bool(SETTING_USE_ENCRYPTED_TOKEN_FILE);
 
-    std::string api_url = app_config->get(CONFIG_ORCA_API_URL);
-    if (!api_url.empty()) {
-        api_base_url = api_url;
-    }
-
-    std::string auth_url = app_config->get(CONFIG_ORCA_AUTH_URL);
-    if (!auth_url.empty()) {
-        auth_base_url = auth_url;
-    }
-
-    std::string cloud_url = app_config->get(CONFIG_ORCA_CLOUD_URL);
-    if (!cloud_url.empty()) {
-        cloud_base_url = cloud_url;
-    }
-
-    std::string pub_key = app_config->get(CONFIG_ORCA_PUB_KEY);
-    if (!pub_key.empty()) {
-        auth_headers["apikey"] = pub_key;
-    }
+    // Ignore legacy endpoint overrides. OrcaSlicer-operated services are disabled.
+    api_base_url.clear();
+    auth_base_url.clear();
+    cloud_base_url.clear();
+    auth_headers.erase("apikey");
 }
 
 void OrcaCloudServiceAgent::set_api_base_url(const std::string& url) { api_base_url = url; }
@@ -636,6 +617,9 @@ static bool parse_stored_secret(const std::string& secret, std::string& out_refr
 
 int OrcaCloudServiceAgent::start()
 {
+    if (api_base_url.empty() || auth_base_url.empty() || cloud_base_url.empty())
+        return BAMBU_NETWORK_ERR_CONNECT_FAILED;
+
     regenerate_pkce();
 
     // Attempt silent sign-in from stored refresh token

@@ -249,26 +249,11 @@ public:
 // Load the icon either from the exe, or from the ico file.
 static wxIcon main_frame_icon(GUI_App::EAppMode app_mode)
 {
+    (void) app_mode;
 #if _WIN32
-    std::wstring path(size_t(MAX_PATH), wchar_t(0));
-    int len = int(::GetModuleFileName(nullptr, path.data(), MAX_PATH));
-    if (len > 0 && len < MAX_PATH) {
-        path.erase(path.begin() + len, path.end());
-        //BBS: remove GCodeViewer as seperate APP logic
-        /*if (app_mode == GUI_App::EAppMode::GCodeViewer) {
-            // Only in case the slicer was started with --gcodeviewer parameter try to load the icon from prusa-gcodeviewer.exe
-            // Otherwise load it from the exe.
-            for (const std::wstring_view exe_name : { std::wstring_view(L"prusa-slicer.exe"), std::wstring_view(L"prusa-slicer-console.exe") })
-                if (boost::iends_with(path, exe_name)) {
-                    path.erase(path.end() - exe_name.size(), path.end());
-                    path += L"prusa-gcodeviewer.exe";
-                    break;
-                }
-        }*/
-    }
-    return wxIcon(path, wxBITMAP_TYPE_ICO);
+    return wxIcon(Slic3r::var("ANYRAID-ORCATitle.ico"), wxBITMAP_TYPE_ICO);
 #else // _WIN32
-    return wxIcon(Slic3r::var("OrcaSlicer_128px.png"), wxBITMAP_TYPE_PNG);
+    return wxIcon(Slic3r::var("ANYRAID-ORCA_128px_transparent.png"), wxBITMAP_TYPE_PNG);
 #endif // _WIN32
 }
 
@@ -395,7 +380,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     default:
     case GUI_App::EAppMode::Editor:
         m_taskbar_icon = std::make_unique<OrcaSlicerTaskBarIcon>(wxTBI_DOCK);
-        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("OrcaSlicer-mac_256px.ico"), wxBITMAP_TYPE_ICO), "OrcaSlicer");
+        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("ANYRAID-ORCA.ico"), wxBITMAP_TYPE_ICO), SLIC3R_APP_NAME);
         break;
     case GUI_App::EAppMode::GCodeViewer:
         break;
@@ -3502,7 +3487,7 @@ void MainFrame::init_menubar_as_editor()
 
     // help
     append_menu_item(m_topbar->GetCalibMenu(), wxID_ANY, _L("Calibration Guide"), _L("Calibration Guide"), [](wxCommandEvent &)
-                     { wxLaunchDefaultBrowser("https://www.orcaslicer.com/wiki/calibration_guide", wxBROWSER_NEW_WINDOW); }, "", nullptr, [this]()
+                     { wxLaunchDefaultBrowser("https://github.com/ANYRAID/ANYRAID-ORCA", wxBROWSER_NEW_WINDOW); }, "", nullptr, [this]()
                      {return m_plater->is_view3D_shown();; }, this);
 
 #else
@@ -3640,7 +3625,7 @@ void MainFrame::init_menubar_as_editor()
         [this]() {return m_plater->is_view3D_shown();; }, this);
     // help
     append_menu_item(calib_menu, wxID_ANY, _L("Calibration Guide"), _L("Calibration Guide"),
-        [](wxCommandEvent&) { wxLaunchDefaultBrowser("https://www.orcaslicer.com/wiki/calibration_guide", wxBROWSER_NEW_WINDOW); }, "", nullptr,
+        [](wxCommandEvent&) { wxLaunchDefaultBrowser("https://github.com/ANYRAID/ANYRAID-ORCA", wxBROWSER_NEW_WINDOW); }, "", nullptr,
         [this]() {return m_plater->is_view3D_shown();; }, this);
 
     m_menubar->Append(calib_menu,wxString::Format("&%s", _L("Calibration")));
@@ -4514,7 +4499,7 @@ SettingsDialog::SettingsDialog(MainFrame* mainframe)
         SetIcon(wxIcon(szExeFileName, wxBITMAP_TYPE_ICO));
     }
 #else
-    SetIcon(wxIcon(var("OrcaSlicer_128px.png"), wxBITMAP_TYPE_PNG));
+    SetIcon(wxIcon(var("ANYRAID-ORCA_128px_transparent.png"), wxBITMAP_TYPE_PNG));
 #endif // _WIN32
 
     //just hide the Frame on closing

@@ -73,12 +73,14 @@ TEST_CASE("Plugin audit denies app config and token filenames anywhere", "[audit
     {
         CHECK(mgr.is_denied_filename(fs::path("orcaslicer.conf")));
         CHECK(mgr.is_denied_filename(fs::path("ORCASLICER.CONF")));
+        CHECK(mgr.is_denied_filename(fs::path("OrcaSlicerGcodeViewer.conf")));
+        CHECK(mgr.is_denied_filename(fs::path("ORCASLICERGCODEVIEWER.INI")));
         CHECK(mgr.is_denied_filename(fs::path("ORCA_REFRESH_TOKEN.SEC")));
     }
 
     SECTION("an unrelated name that merely shares a stem is not denied")
     {
-        // The prefix is the full registered name ("OrcaSlicer.conf"), not the stem "OrcaSlicer",
+        // The prefix is the full registered name (for example "ANYRAID-ORCA.conf"), not the app stem,
         // so a sibling file with a different extension/suffix stays allowed.
         CHECK_FALSE(mgr.is_denied_filename(fs::path(data_dir()) / (SLIC3R_APP_KEY "_other.txt")));
         CHECK_FALSE(mgr.is_denied_filename(fs::path(data_dir()) / (SLIC3R_APP_KEY ".json")));

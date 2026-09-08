@@ -976,7 +976,7 @@ void PrintConfigDef::init_common_params()
 
     def = this->add("use_3mf", coBool);
     def->label = L("Use 3MF instead of G-code");
-    def->tooltip = L("Enable this if the printer accepts a 3MF file as the print job. When enabled, Orca Slicer "
+    def->tooltip = L("Enable this if the printer accepts a 3MF file as the print job. When enabled, ANYRAID-ORCA "
                      "sends the sliced file as a .gcode.3mf, instead of a plain .gcode file.");
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
@@ -994,7 +994,7 @@ void PrintConfigDef::init_common_params()
 
     def = this->add("print_host", coString);
     def->label = L("Hostname, IP or URL");
-    def->tooltip = L("Orca Slicer can upload G-code files to a printer host. This field should contain "
+    def->tooltip = L("ANYRAID-ORCA can upload G-code files to a printer host. This field should contain "
         "the hostname, IP address or URL of the printer host instance. "
         "Print host behind HAProxy with basic auth enabled can be accessed by putting the user name and password into the URL "
         "in the following format: https://username:password@your-octopi-address/");
@@ -1011,7 +1011,7 @@ void PrintConfigDef::init_common_params()
 
     def = this->add("printhost_apikey", coString);
     def->label = L("API Key / Password");
-    def->tooltip = L("Orca Slicer can upload G-code files to a printer host. This field should contain "
+    def->tooltip = L("ANYRAID-ORCA can upload G-code files to a printer host. This field should contain "
         "the API Key or the password required for authentication.");
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
@@ -5384,7 +5384,7 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("host_type", coEnum);
     def->label = L("Host Type");
-    def->tooltip = L("Orca Slicer can upload G-code files to a printer host. This field must contain "
+    def->tooltip = L("ANYRAID-ORCA can upload G-code files to a printer host. This field must contain "
                    "the kind of the host.");
     def->enum_keys_map = &ConfigOptionEnum<PrintHostType>::get_enum_values();
     def->enum_values.push_back("prusalink");
@@ -12196,7 +12196,7 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("config_compatibility", coEnum);
     def->label = L("Forward-compatibility rule when loading configurations from config files and project files (3MF, AMF).");
-    def->tooltip = L("This version of OrcaSlicer may not understand configurations produced by the newest OrcaSlicer versions. "
+    def->tooltip = L("This version of ANYRAID-ORCA may not understand configurations produced by newer ANYRAID-ORCA or OrcaSlicer versions. "
                      "For example, newer OrcaSlicer may extend the list of supported firmware flavors. One may decide to "
                      "bail out or to substitute an unknown value with a default silently or verbosely.");
     def->enum_keys_map = &ConfigOptionEnum<ForwardCompatibilitySubstitutionRule>::get_enum_values();
@@ -12272,7 +12272,7 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("single_instance", coBool);
     def->label = L("Single instance mode");
-    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of GUI OrcaSlicer, "
+    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of ANYRAID-ORCA, "
                      "or an existing OrcaSlicer window is activated. "
                      "Overrides the \"single_instance\" configuration value from application preferences.");*/
 

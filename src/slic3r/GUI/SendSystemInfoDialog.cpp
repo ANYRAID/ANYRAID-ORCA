@@ -214,7 +214,7 @@ static bool should_dialog_be_shown()
 
 
 
-// Following function saves current OrcaSlicer version into app config.
+// Following function saves current ANYRAID-ORCA version into app config.
 // It will be later used to decide whether to open the dialog or not.
 static void save_version()
 {
@@ -633,7 +633,7 @@ SendSystemInfoDialog::SendSystemInfoDialog(wxWindow* parent)
     wxString html = GUI::format_wxstr(
             "<html><body bgcolor=%1%><font color=%2%>"
             "<table><tr><td>"
-            "<img src = \"" + resources_dir() + "/images/OrcaSlicer_192px.png\" />"
+            "<img src = \"" + resources_dir() + "/images/ANYRAID-ORCA_192px.png\" />"
             "</td><td align=\"left\">"
             + text0 + "<br / ><br / >"
             + text1 + "<br /><br />"

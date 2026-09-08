@@ -42,7 +42,7 @@ jobs:
   merge:
     # Skips the job unless a PR comment mentions the command.
     if: >-
-      github.repository == 'OrcaSlicer/OrcaSlicer'
+      github.repository == 'ANYRAID/ANYRAID-ORCA'
       && github.event.issue.pull_request != null
       && contains(github.event.comment.body, '/bot merge')
     permissions:

@@ -274,7 +274,7 @@ bool is_associate_files(std::wstring extend)
     wchar_t app_path[MAX_PATH];
     ::GetModuleFileNameW(nullptr, app_path, sizeof(app_path));
 
-    std::wstring prog_id             = L" Orca.Slicer.1";
+    std::wstring prog_id             = L"ANYRAID.ORCA.1";
     std::wstring reg_base            = L"Software\\Classes";
     std::wstring reg_extension       = reg_base + L"\\." + extend;
 
@@ -439,37 +439,6 @@ private:
 };
 
 #ifdef __linux__
-static void migrate_flatpak_legacy_datadir(const boost::filesystem::path &data_dir_path)
-{
-    if(!boost::filesystem::exists("/.flatpak-info"))
-        return; // Not running as a Flatpak, nothing to migrate.
-    
-    namespace fs = boost::filesystem;
-
-    if (fs::exists(data_dir_path)){
-        std::cerr << "New Flatpak data dir: " << data_dir_path << std::endl;
-        return;
-    }
-    std::cerr << "Migrating Flatpak data dir: " << data_dir_path << std::endl;
-
-    std::string legacy_data_dir_str = data_dir_path.string();
-    boost::replace_first(legacy_data_dir_str, "com.orcaslicer.OrcaSlicer", "io.github.softfever.OrcaSlicer");
-    const fs::path legacy_data_dir(legacy_data_dir_str);
-
-    std::cerr << "Legacy Flatpak data dir: " << legacy_data_dir << std::endl;
-
-    if ( ! fs::exists(legacy_data_dir) || ! fs::is_directory(legacy_data_dir))
-        return;
-    std::cerr << "Legacy Flatpak data dir exists: " << legacy_data_dir << std::endl;
-
-    try {
-        std::cerr << "Migrating Flatpak data dir from " << legacy_data_dir << " to " << data_dir_path << std::endl;
-        copy_directory_recursively(legacy_data_dir, data_dir_path);
-    } catch (const std::exception &ex) {
-        std::cerr << "Failed to migrate Flatpak data dir from " << legacy_data_dir << " to " << data_dir_path << ": " << ex.what() << std::endl;
-    }
-}
-
 bool static check_old_linux_datadir(const wxString& app_name) {
     // If we are on Linux and the datadir does not exist yet, look into the old
     // location where the datadir was before version 2.3. If we find it there,
@@ -735,7 +704,7 @@ static void generic_exception_handle()
         // and terminate the app so it is at least certain to happen now.
         BOOST_LOG_TRIVIAL(error) << boost::format("std::bad_alloc exception: %1%") % ex.what();
         flush_logs();
-        wxString errmsg = wxString::Format(_L("OrcaSlicer will terminate because of running out of memory. "
+        wxString errmsg = wxString::Format(_L("ANYRAID-ORCA will terminate because of running out of memory. "
                                               "It may be a bug. It will be appreciated if you report the issue to our team."));
         wxMessageBox(errmsg + "\n\n" + wxString(ex.what()), _L("Fatal error"), wxOK | wxICON_ERROR);
 
@@ -744,7 +713,7 @@ static void generic_exception_handle()
      } catch (const boost::io::bad_format_string& ex) {
      	BOOST_LOG_TRIVIAL(error) << boost::format("Uncaught exception: %1%") % ex.what();
         	flush_logs();
-        wxString errmsg = _L("OrcaSlicer will terminate because of a localization error. "
+        wxString errmsg = _L("ANYRAID-ORCA will terminate because of a localization error. "
                              "It will be appreciated if you report the specific scenario this issue happened.");
         wxMessageBox(errmsg + "\n\n" + wxString(ex.what()), _L("Critical error"), wxOK | wxICON_ERROR);
         std::terminate();
@@ -752,7 +721,7 @@ static void generic_exception_handle()
     } catch (const std::exception& ex) {
         BOOST_LOG_TRIVIAL(error) << boost::format("Uncaught exception: %1%") % ex.what();
         flush_logs();
-        wxLogError(format_wxstr(_L("OrcaSlicer got an unhandled exception: %1%"), ex.what()));
+        wxLogError(format_wxstr(_L("ANYRAID-ORCA got an unhandled exception: %1%"), ex.what()));
         throw;
     }
 //#endif
@@ -993,33 +962,6 @@ void GUI_App::post_init()
               // this->check_privacy_version(0);
               request_user_handle(0, cloud_provider);
             }
-        });
-    }
-
-    // Orca: notify users upgrading from a pre-2.4.0 version that profile syncing
-    // moved from Bambu Cloud to Orca Cloud.
-    if (is_editor() && m_last_config_version && m_last_config_version->valid()
-        && *m_last_config_version < Semver(2, 4, 0)) {
-        CallAfter([] {
-            const wxString wiki_url = "https://www.orcaslicer.com/wiki/user_profiles/user_profiles.html#profiles-missing-after-updating-from-bambu-cloud";
-            MessageDialog dlg(nullptr,
-                _L("Since version 2.4.0, OrcaSlicer syncs user profiles through Orca Cloud instead of Bambu Cloud.\n\n"
-                   "To migrate your existing profiles, log in to Orca Cloud and they will be transferred automatically. "
-                   "To learn more about how OrcaSlicer stores and syncs your profiles, or to migrate your presets manually, check out our wiki.\n\n"
-                   "If you did not use Bambu Cloud to sync profiles, this change does not affect you and you can safely ignore this message."),
-                _L("Profile syncing change"),
-                wxOK,
-                "",
-                _L("Learn more"),
-                [wiki_url](const wxString &) { wxLaunchDefaultBrowser(wiki_url); });
-            // Hack: the "Learn more" link renders the message in a wxHtmlWindow whose
-            // height is underestimated for multi-paragraph text, leaving a scrollbar.
-            // The html sits in a proportion-1 sizer chain, so grow the dialog (never
-            // shrink it below its content width) to give the text enough room.
-            const wxSize sz = dlg.GetSize();
-            dlg.SetSize(std::max(sz.x, dlg.FromDIP(280)), std::max(sz.y, dlg.FromDIP(200)));
-            dlg.CenterOnParent();
-            dlg.ShowModal();
         });
     }
 
@@ -2478,7 +2420,7 @@ void GUI_App::init_webview_runtime()
     }
 
     BOOST_LOG_TRIVIAL(warning) << "WebView2 runtime not found; prompting user to install.";
-    int nRet = wxMessageBox(_L("Orca Slicer requires the Microsoft WebView2 Runtime to operate certain features.\nClick Yes to install it now."),
+    int nRet = wxMessageBox(_L("ANYRAID-ORCA requires the Microsoft WebView2 Runtime to operate certain features.\nClick Yes to install it now."),
                             _L("WebView2 Runtime"), wxYES_NO);
     if (nRet != wxYES) {
         BOOST_LOG_TRIVIAL(warning) << "User declined WebView2 runtime installation.";
@@ -2500,7 +2442,7 @@ void GUI_App::init_webview_runtime()
         BOOST_LOG_TRIVIAL(error) << "WebView2 runtime installation failed or still not detected.";
         wxMessageBox(_L("The Microsoft WebView2 Runtime could not be installed.\n"
                         "Some features, including the setup wizard, may appear blank until it is installed.\n"
-                        "Please install it manually from https://developer.microsoft.com/microsoft-edge/webview2/ and restart Orca Slicer."),
+                        "Please install it manually from https://developer.microsoft.com/microsoft-edge/webview2/ and restart ANYRAID-ORCA."),
                      _L("WebView2 Runtime"), wxOK | wxICON_WARNING);
     }
 }
@@ -2549,7 +2491,6 @@ void GUI_App::init_app_config()
                 if (! wxGetEnv(wxS("XDG_CONFIG_HOME"), &dir) || dir.empty() )
                     dir = wxFileName::GetHomeDir() + wxS("/.config");
                 data_dir_path = boost::filesystem::path((dir + "/" + GetAppName()).ToUTF8().data());
-                migrate_flatpak_legacy_datadir(data_dir_path);
                 set_data_dir(data_dir_path.string());
             #endif
             if (!boost::filesystem::exists(data_dir_path)){
@@ -2582,7 +2523,7 @@ void GUI_App::init_app_config()
     set_log_path_and_level(log_filename, 3);
 #endif
 
-    BOOST_LOG_TRIVIAL(info) << boost::format("gui mode, Current OrcaSlicer Version %1% build %2%") % SoftFever_VERSION % build_commit_label;
+    BOOST_LOG_TRIVIAL(info) << boost::format("gui mode, Current ANYRAID-ORCA version %1% build %2%") % SoftFever_VERSION % build_commit_label;
 
     //BBS: remove GCodeViewer as seperate APP logic
 	if (!app_config)
@@ -3026,7 +2967,7 @@ bool GUI_App::on_init_inner()
             RichMessageDialog
                 dlg(nullptr,
                     wxString::Format(_L("%s\nDo you want to continue?"), msg),
-                    "OrcaSlicer", wxICON_QUESTION | wxYES_NO);
+                    "ANYRAID-ORCA", wxICON_QUESTION | wxYES_NO);
             dlg.ShowCheckBox(_L("Remember my choice"));
             if (dlg.ShowModal() != wxID_YES) return false;
 
@@ -3104,7 +3045,7 @@ bool GUI_App::on_init_inner()
     //     }
     // }
 
-    //Orca: write OrcaSlicer version
+    //Orca: write ANYRAID-ORCA version
     if(app_config->get("version") != SoftFever_VERSION) {
         app_config->set("version", SoftFever_VERSION);
     }
@@ -3149,7 +3090,7 @@ bool GUI_App::on_init_inner()
             associate_files(L"step");
             associate_files(L"stp");
         }
-        associate_url(L"orcaslicer");
+        associate_url(L"anyraid-orca");
 
         if (app_config->get("associate_gcode") == "true")
             associate_files(L"gcode");
@@ -3163,7 +3104,7 @@ bool GUI_App::on_init_inner()
                /* wxString tips = wxString::Format(_L("Click to download new version in default browser: %s"), version_info.version_str);
                 DownloadDialog dialog(this->mainframe,
                     tips,
-                    _L("New version of Orca Slicer"),
+                    _L("New version of ANYRAID-ORCA"),
                     false,
                     wxCENTER | wxICON_INFORMATION);
 
@@ -3214,7 +3155,7 @@ bool GUI_App::on_init_inner()
                 wxString tips = wxString::Format(_L("Click to download new version in default browser: %s"), version_str);
                 DownloadDialog dialog(this->mainframe,
                     tips,
-                    _L("OrcaSlicer needs an update"),
+                    _L("ANYRAID-ORCA needs an update"),
                     false,
                     wxCENTER | wxICON_INFORMATION);
                 dialog.SetExtendedMessage(description_text);
@@ -3530,7 +3471,7 @@ bool GUI_App::on_init_inner()
         m_config_corrupted = false;
         show_error(nullptr,
                    _u8L(
-                       "The OrcaSlicer configuration file may be corrupted and cannot be parsed.\nOrcaSlicer has attempted to recreate the "
+                       "The ANYRAID-ORCA configuration file may be corrupted and cannot be parsed.\nANYRAID-ORCA has attempted to recreate the "
                        "configuration file.\nPlease note, application settings will be lost, but printer profiles will not be affected."));
     }
     return true;
@@ -5452,7 +5393,7 @@ void GUI_App::on_http_error(wxCommandEvent &evt)
 
     // Version limit
     if (code == HttpErrorVersionLimited) {
-        MessageDialog msg_dlg(nullptr, _L("The version of Orca Slicer is too low and needs to be updated to the latest version before it can be used normally."), "", wxAPPLY | wxOK);
+        MessageDialog msg_dlg(nullptr, _L("The version of ANYRAID-ORCA is too low and needs to be updated to the latest version before it can be used normally."), "", wxAPPLY | wxOK);
         if (msg_dlg.ShowModal() == wxOK) {
         }
     }
@@ -6039,6 +5980,10 @@ void GUI_App::check_new_version_sf(bool show_tips, int by_user)
     AppConfig* app_config = wxGetApp().app_config;
     bool       check_stable_only = app_config->get_bool("check_stable_update_only");
     auto version_check_url = app_config->version_check_url();
+    if (version_check_url.empty()) {
+        BOOST_LOG_TRIVIAL(info) << "ANYRAID-ORCA online version checking is disabled";
+        return;
+    }
 
     UpdaterQuery query{
         detect_updater_iid(app_config),
@@ -6202,7 +6147,7 @@ bool GUI_App::process_network_msg(std::string dev_id, std::string msg)
         else if (msg == "update_studio") {
             BOOST_LOG_TRIVIAL(info) << "process_network_msg, update_studio";
             if (!m_show_error_msgdlg) {
-                MessageDialog msg_dlg(nullptr, _L("Please try updating OrcaSlicer and then try again."), "", wxAPPLY | wxOK);
+                MessageDialog msg_dlg(nullptr, _L("Please try updating ANYRAID-ORCA and then try again."), "", wxAPPLY | wxOK);
                 m_show_error_msgdlg = true;
                 msg_dlg.ShowModal();
                 m_show_error_msgdlg = false;
@@ -6212,7 +6157,7 @@ bool GUI_App::process_network_msg(std::string dev_id, std::string msg)
         else if (msg == "update_fixed_studio") {
             BOOST_LOG_TRIVIAL(info) << "process_network_msg, update_fixed_studio";
             if (!m_show_error_msgdlg) {
-                MessageDialog msg_dlg(nullptr, _L("Please try updating OrcaSlicer and then try again."), "", wxAPPLY | wxOK);
+                MessageDialog msg_dlg(nullptr, _L("Please try updating ANYRAID-ORCA and then try again."), "", wxAPPLY | wxOK);
                 m_show_error_msgdlg = true;
                 msg_dlg.ShowModal();
                 m_show_error_msgdlg = false;
@@ -6222,7 +6167,7 @@ bool GUI_App::process_network_msg(std::string dev_id, std::string msg)
         else if (msg == "cert_expired") {
             BOOST_LOG_TRIVIAL(info) << "process_network_msg, cert_expired";
             if (!m_show_error_msgdlg) {
-                MessageDialog msg_dlg(nullptr, _L("The certificate has expired. Please check the time settings or update OrcaSlicer and try again."), "", wxAPPLY | wxOK);
+                MessageDialog msg_dlg(nullptr, _L("The certificate has expired. Please check the time settings or update ANYRAID-ORCA and try again."), "", wxAPPLY | wxOK);
                 m_show_error_msgdlg = true;
                 msg_dlg.ShowModal();
                 m_show_error_msgdlg = false;
@@ -6242,7 +6187,7 @@ bool GUI_App::process_network_msg(std::string dev_id, std::string msg)
         else if (msg == "update_firmware_studio") {
             BOOST_LOG_TRIVIAL(info) << "process_network_msg, firmware internal error";
             if (!m_show_error_msgdlg) {
-                MessageDialog msg_dlg(nullptr, _L("Internal error. Please try upgrading the firmware and OrcaSlicer version. If the issue persists, contact support."), "", wxAPPLY | wxOK);
+                MessageDialog msg_dlg(nullptr, _L("Internal error. Please try upgrading the firmware and ANYRAID-ORCA version. If the issue persists, contact support."), "", wxAPPLY | wxOK);
                 m_show_error_msgdlg = true;
                 msg_dlg.ShowModal();
                 m_show_error_msgdlg = false;
@@ -6257,12 +6202,12 @@ bool GUI_App::process_network_msg(std::string dev_id, std::string msg)
                 m_unsigned_plugin_warning_shown = true;
                 MessageDialog
                     msg_dlg(nullptr,
-                            _L("To use OrcaSlicer with Bambu Lab printers, you need to enable LAN mode and Developer mode on your printer.\n\n"
+                            _L("To use ANYRAID-ORCA with Bambu Lab printers, you need to enable LAN mode and Developer mode on your printer.\n\n"
                                "Please go to your printer's settings and:\n"
                                "1. Turn on LAN mode\n"
                                "2. Enable Developer mode\n\n"
                                "Developer mode allows the printer to work exclusively through local network access, "
-                               "enabling full functionality with OrcaSlicer."),
+                               "enabling full functionality with ANYRAID-ORCA."),
                             _L("Network Plug-in Restriction"), wxAPPLY | wxOK);
                 m_show_error_msgdlg = true;
                 msg_dlg.ShowModal();
@@ -7317,8 +7262,10 @@ void GUI_App::check_bundle_updates()
 
 bool GUI_App::unsubscribe_bundle(const std::string& id)
 {
+    if (!m_agent)
+        return false;
     auto orca_agent = std::dynamic_pointer_cast<OrcaCloudServiceAgent>(m_agent->get_cloud_agent());
-    return orca_agent->unsubscribe_bundle(id);
+    return orca_agent && orca_agent->unsubscribe_bundle(id);
 }
 
 void GUI_App::start_sync_user_preset(bool with_progress_dlg)
@@ -7956,7 +7903,7 @@ bool GUI_App::load_language(wxString language, bool initial)
     	// Get the active language from PrusaSlicer.ini, or empty string if the key does not exist.
         language = app_config->get("language");
         if (! language.empty())
-        	BOOST_LOG_TRIVIAL(info) << boost::format("language provided by OrcaSlicer.conf: %1%") % language;
+	BOOST_LOG_TRIVIAL(info) << boost::format("language provided by ANYRAID-ORCA.conf: %1%") % language;
         else {
             // Get the system language.
             const wxLanguage lang_system = wxLanguage(wxLocale::GetSystemLanguage());
@@ -8013,7 +7960,7 @@ bool GUI_App::load_language(wxString language, bool initial)
 	}
 
 	if (language_info != nullptr && language_info->LayoutDirection == wxLayout_RightToLeft) {
-    	BOOST_LOG_TRIVIAL(trace) << boost::format("The following language code requires right to left layout, which is not supported by OrcaSlicer: %1%") % language_info->CanonicalName.ToUTF8().data();
+	BOOST_LOG_TRIVIAL(trace) << boost::format("The following language code requires right to left layout, which is not supported by ANYRAID-ORCA: %1%") % language_info->CanonicalName.ToUTF8().data();
 		language_info = nullptr;
 	}
 
@@ -8132,14 +8079,14 @@ bool GUI_App::load_language(wxString language, bool initial)
 
     if (!wxLocale::IsAvailable(locale_language_info->Language)) {
     	// Loading the language dictionary failed.
-	    wxString message = wxString::Format(_L("Switching Orca Slicer to language %s failed."), requested_language_code);
+	    wxString message = wxString::Format(_L("Switching ANYRAID-ORCA to language %s failed."), requested_language_code);
 #if !defined(_WIN32) && !defined(__APPLE__)
         // likely some linux system
         message += _L("\nYou may need to reconfigure the missing locales, likely by running the \"locale-gen\" and \"dpkg-reconfigure locales\" commands.\n");
 #endif
         if (initial)
-        	message + "\n\nApplication will close.";
-        wxMessageBox(message, _L("Orca Slicer - Switching language failed"), wxOK | wxICON_ERROR);
+            message += "\n\nApplication will close.";
+        wxMessageBox(message, _L("ANYRAID-ORCA - Switching language failed"), wxOK | wxICON_ERROR);
         if (initial)
 			std::exit(EXIT_FAILURE);
 		else
@@ -8630,7 +8577,7 @@ void GUI_App::open_preferences(size_t open_on_tab, const std::string& highlight_
                     associate_files(L"step");
                     associate_files(L"stp");
                 }
-                associate_url(L"orcaslicer");
+                associate_url(L"anyraid-orca");
             }
             else {
                 if (app_config->get("associate_gcode") == "true")
@@ -9831,8 +9778,8 @@ void GUI_App::associate_files(std::wstring extend)
     ::GetModuleFileNameW(nullptr, app_path, sizeof(app_path));
 
     std::wstring prog_path = L"\"" + std::wstring(app_path) + L"\"";
-    std::wstring prog_id = L" Orca.Slicer.1";
-    std::wstring prog_desc = L"OrcaSlicer";
+    std::wstring prog_id = L"ANYRAID.ORCA.1";
+    std::wstring prog_desc = L"ANYRAID-ORCA";
     std::wstring prog_command = prog_path + L" \"%1\"";
     std::wstring reg_base = L"Software\\Classes";
     std::wstring reg_extension = reg_base + L"\\." + extend;
@@ -9858,8 +9805,8 @@ void GUI_App::disassociate_files(std::wstring extend)
     ::GetModuleFileNameW(nullptr, app_path, sizeof(app_path));
 
     std::wstring prog_path = L"\"" + std::wstring(app_path) + L"\"";
-    std::wstring prog_id = L" Orca.Slicer.1";
-    std::wstring prog_desc = L"OrcaSlicer";
+    std::wstring prog_id = L"ANYRAID.ORCA.1";
+    std::wstring prog_desc = L"ANYRAID-ORCA";
     std::wstring prog_command = prog_path + L" \"%1\"";
     std::wstring reg_base = L"Software\\Classes";
     std::wstring reg_extension = reg_base + L"\\." + extend;

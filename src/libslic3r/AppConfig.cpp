@@ -40,8 +40,9 @@ using namespace nlohmann;
 
 namespace Slic3r {
 
-static const std::string VERSION_CHECK_URL = "https://check-version.orcaslicer.com/latest";
-static const std::string PROFILE_UPDATE_URL = "https://check-version.orcaslicer.com/profile";
+// ANYRAID-ORCA does not use OrcaSlicer-operated update services.
+static const std::string VERSION_CHECK_URL;
+static const std::string PROFILE_UPDATE_URL;
 static const std::string MODELS_STR = "models";
 
 const std::string AppConfig::SECTION_FILAMENTS = "filaments";
@@ -1809,8 +1810,7 @@ std::string AppConfig::config_path()
 
 std::string AppConfig::version_check_url() const
 {
-    auto from_settings = get("version_check_url");
-    return from_settings.empty() ? VERSION_CHECK_URL : from_settings;
+    return VERSION_CHECK_URL;
 }
 
 std::string AppConfig::profile_update_url() const

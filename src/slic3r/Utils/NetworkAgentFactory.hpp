@@ -180,7 +180,8 @@ private:
  * Creates a NetworkAgent with cloud agent only. The printer agent is created
  * separately when a printer is selected, via create_printer_agent_by_id().
  *
- * Cloud provider: Always creates OrcaCloudServiceAgent as the primary provider.
+ * Orca Cloud is disabled in ANYRAID-ORCA. Only explicitly configured third-party
+ * providers are created.
  * Third-party cloud agents (e.g., Bambu) are created from the cloud_providers
  * AppConfig setting and added via NetworkAgent::add_cloud_agent().
  *
