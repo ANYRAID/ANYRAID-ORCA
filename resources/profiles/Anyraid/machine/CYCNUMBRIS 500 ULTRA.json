@@ -1,0 +1,12 @@
+{
+    "type": "machine_model",
+    "name": "CYCNUMBRIS 500 ULTRA",
+    "model_id": "CYCNUMBRIS-500-ULTRA",
+    "nozzle_diameter": "0.4 HP Liquid;0.4 HF Air;0.4 HF Liquid;0.4 Flexible;0.4 General Air",
+    "machine_tech": "FFF",
+    "family": "CYCNUMBRIS",
+    "bed_model": "",
+    "bed_texture": "",
+    "hotend_model": "",
+    "default_materials": "Generic PLA @System;Generic PETG @System;Generic TPU @System;Generic PVA @System"
+}

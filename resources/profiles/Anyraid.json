@@ -1,0 +1,145 @@
+{
+    "name": "ANYRAID",
+    "version": "01.00.00.01",
+    "force_update": "0",
+    "description": "ANYRAID CYCNUMBRIS printer configurations",
+    "machine_model_list": [
+        {
+            "name": "CYCNUMBRIS 500 PRO",
+            "sub_path": "machine/CYCNUMBRIS 500 PRO.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 MAX",
+            "sub_path": "machine/CYCNUMBRIS 500 MAX.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 ULTRA",
+            "sub_path": "machine/CYCNUMBRIS 500 ULTRA.json"
+        },
+        {
+            "name": "CYCNUMBRIS 5E",
+            "sub_path": "machine/CYCNUMBRIS 5E.json"
+        }
+    ],
+    "process_list": [
+        {
+            "name": "fdm_process_common",
+            "sub_path": "process/fdm_process_common.json"
+        },
+        {
+            "name": "fdm_process_ANYRAID_common",
+            "sub_path": "process/fdm_process_ANYRAID_common.json"
+        },
+        {
+            "name": "0.20mm Standard 0.4 nozzle @ANYRAID",
+            "sub_path": "process/0.20mm Standard 0.4 nozzle @ANYRAID.json"
+        }
+    ],
+    "filament_list": [],
+    "machine_list": [
+        {
+            "name": "fdm_machine_common",
+            "sub_path": "machine/fdm_machine_common.json"
+        },
+        {
+            "name": "fdm_klipper_common",
+            "sub_path": "machine/fdm_klipper_common.json"
+        },
+        {
+            "name": "fdm_cycnumbris_500_pro_common",
+            "sub_path": "machine/fdm_cycnumbris_500_pro_common.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 PRO General-Purpose Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 PRO General-Purpose Air-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 PRO High-Performance Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 PRO High-Performance Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 PRO High-Flow Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 PRO High-Flow Air-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 PRO High-Flow Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 PRO High-Flow Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 PRO Flexible-Material Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 PRO Flexible-Material Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "fdm_cycnumbris_500_max_common",
+            "sub_path": "machine/fdm_cycnumbris_500_max_common.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 MAX High-Flow Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 MAX High-Flow Air-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 MAX High-Performance Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 MAX High-Performance Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 MAX High-Flow Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 MAX High-Flow Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 MAX Flexible-Material Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 MAX Flexible-Material Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 MAX General-Purpose Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 MAX General-Purpose Air-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "fdm_cycnumbris_500_ultra_common",
+            "sub_path": "machine/fdm_cycnumbris_500_ultra_common.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 ULTRA High-Performance Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 ULTRA High-Performance Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 ULTRA High-Flow Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 ULTRA High-Flow Air-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 ULTRA High-Flow Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 ULTRA High-Flow Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 ULTRA Flexible-Material Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 ULTRA Flexible-Material Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 500 ULTRA General-Purpose Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 500 ULTRA General-Purpose Air-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "fdm_cycnumbris_5e_common",
+            "sub_path": "machine/fdm_cycnumbris_5e_common.json"
+        },
+        {
+            "name": "CYCNUMBRIS 5E High-Performance Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 5E High-Performance Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 5E High-Flow Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 5E High-Flow Air-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 5E High-Flow Liquid-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 5E High-Flow Liquid-Cooled Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 5E Flexible-Material Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 5E Flexible-Material Toolhead 0.4 nozzle.json"
+        },
+        {
+            "name": "CYCNUMBRIS 5E General-Purpose Air-Cooled Toolhead 0.4 nozzle",
+            "sub_path": "machine/CYCNUMBRIS 5E General-Purpose Air-Cooled Toolhead 0.4 nozzle.json"
+        }
+    ]
+}
