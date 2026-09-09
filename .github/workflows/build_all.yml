@@ -119,8 +119,9 @@ jobs:
         arch:
           - arm64
           - x86_64
-    # Don't run scheduled builds on forks:
-    if: ${{ !cancelled() && (github.event_name != 'schedule' || github.repository == 'ANYRAID/ANYRAID-ORCA') }}
+    # macOS delivery is paused until ANYRAID explicitly decides to support
+    # macOS users. Keep the job definition so it can be restored deliberately.
+    if: ${{ false && !cancelled() && (github.event_name != 'schedule' || github.repository == 'ANYRAID/ANYRAID-ORCA') }}
     uses: ./.github/workflows/build_check_cache.yml
     with:
       os: ${{ vars.SELF_HOSTED && 'orca-macos-arm64' || 'macos-14' }}
@@ -207,7 +208,7 @@ jobs:
           ./validator-bin/OrcaSlicer_profile_validator -p "${{ github.workspace }}/resources/profiles" -s -l 2
   publish_test_results:
     name: Publish Test Results
-    needs: [unit_tests_linux_x86_64, unit_tests_linux_aarch64, unit_tests_windows_x64, unit_tests_windows_arm64, unit_tests_macos_arm64]
+    needs: [unit_tests_linux_x86_64, unit_tests_linux_aarch64, unit_tests_windows_x64, unit_tests_windows_arm64]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
