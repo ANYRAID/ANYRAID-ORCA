@@ -142,8 +142,8 @@ jobs:
   # Slice a two-colour cube through every shipped printer so all custom g-code
   # (change_filament_gcode, machine start/end, etc.) is expanded - catches
   # slicing regressions the static profile checks and unit tests can't see.
-  # Profile-only PRs are covered by check_profiles.yml's nightly binary; this
-  # covers src/engine PRs with the PR-built binary.
+  # This complements static profile validation by exercising the binary
+  # produced for the current nightly or version tag.
   slice_check_linux:
     name: Slice check (Linux ${{ vars.SELF_HOSTED && 'x86_64' || 'aarch64' }})
     needs: build_linux
@@ -214,9 +214,6 @@ jobs:
       date:
       ver:
       ver_pure:
-      # Belt-printer nightlies share the main nightly release but carry a `_belt`
-      # suffix so they never overwrite the main assets.
-      nightly_suffix: ${{ github.ref == 'refs/heads/belt-printer' && '_belt' || '' }}
     steps:
     - name: "Remove unneeded stuff to free disk space"
       run:
@@ -225,13 +222,8 @@ jobs:
     - name: Get the version and date
       run: |
         ver_pure=$(grep 'set(SoftFever_VERSION' version.inc | cut -d '"' -f2)
-        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          ver="PR-${{ github.event.number }}"
-          git_commit_hash="${{ github.event.pull_request.head.sha }}"
-        else
-          ver=V$ver_pure
-          git_commit_hash="${{ github.sha }}"
-        fi
+        ver=V$ver_pure
+        git_commit_hash="${{ github.sha }}"
         echo "ver=$ver" >> $GITHUB_ENV
         echo "ver_pure=$ver_pure" >> $GITHUB_ENV
         echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
@@ -241,16 +233,7 @@ jobs:
       id: fp_cache_key
       run: echo "key=flatpak-builder-${{ matrix.variant.arch }}-${{ hashFiles('deps/**', 'scripts/flatpak/com.anyraid.anyraidorca.yml', 'scripts/flatpak/make_deps_tar.sh') }}" >> "$GITHUB_OUTPUT"
       shell: bash
-    # Manage flatpak-builder cache externally so PRs restore but never upload
-    - name: Restore flatpak-builder cache
-      if: github.event_name == 'pull_request'
-      uses: actions/cache/restore@v6
-      with:
-        path: .flatpak-builder
-        key: ${{ steps.fp_cache_key.outputs.key }}
-        restore-keys: flatpak-builder-${{ matrix.variant.arch }}-
     - name: Save/restore flatpak-builder cache
-      if: github.event_name != 'pull_request'
       uses: actions/cache@v6
       with:
         path: .flatpak-builder
