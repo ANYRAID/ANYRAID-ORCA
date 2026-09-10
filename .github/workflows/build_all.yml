@@ -174,7 +174,7 @@ jobs:
         with:
           pattern: test-results-*
           path: test-results
-      # Best-effort: a read-only token (e.g. fork PRs) can't write the check, so
+      # Best-effort: restricted token permissions may prevent writing the check, so
       # don't let a publish failure fail the run. The test jobs gate correctness.
       - name: Publish Test Results
         continue-on-error: true
