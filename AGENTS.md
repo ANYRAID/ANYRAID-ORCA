@@ -44,7 +44,7 @@ ctest --test-dir ./tests/fff_print
 ## Critical Constraints
 
 - **Backward compatibility required** for .3mf project files and printer profiles
-- **Active delivery platforms** — Windows and Linux changes must pass their build and test gates.
+- **Active delivery platforms** — Windows and Linux artifacts are built by the daily nightly schedule and `v*` version tags. Pull requests and ordinary branch pushes do not run `Build all`.
 - **macOS paused** — macOS build, test, and release jobs stay disabled until ANYRAID explicitly decides to provide a macOS application. Preserve portability where practical, but macOS is not currently a merge gate.
 - Profile/format changes need version migration handling
 - Dependencies built separately in `deps/build/`, then linked to main app
