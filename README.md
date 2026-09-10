@@ -74,16 +74,9 @@ Visit the GitHub Releases page for the latest stable version of ANYRAID-ORCA.
 🌙 **[Download the Latest Nightly Build](https://github.com/ANYRAID/ANYRAID-ORCA/releases/tag/nightly-builds)**
 Explore the latest developments in ANYRAID-ORCA with nightly builds.
 
-### Belt Printer Builds
+> 当前仅构建和发布 Windows 与 Linux 版本。macOS 构建、测试及发布已暂停，待明确需要向 macOS 用户提供程序后再恢复。
 
-The nightly release may ship standard and belt-printer builds. Tell them apart by the filename suffix:
-
-- **Standard** — no suffix, for example `ANYRAID-ORCA_Windows_Installer_x64_nightly.exe`
-- **Belt** — `_belt` suffix, for example `ANYRAID-ORCA_Windows_Installer_x64_nightly_belt.exe`
-
-The `_belt` builds add experimental support for belt or conveyor (infinite-Z) printers, including the slicing pipeline, mesh and G-code transforms, support generation, and tilted-bed preview.
-
-> ⚠️ Belt printer support remains experimental.
+完整的 `Build all` 不在 pull request 或普通分支提交上运行；它仅由每日 nightly 计划任务，或 `v*` 版本标签（例如 `v2.4.0`、`v2.4.0-beta`）触发。
 
 # How to install
 
@@ -98,17 +91,9 @@ If the application does not start, install the following runtimes when needed:
 
 ANYRAID-ORCA currently has no official Microsoft Store or WinGet package.
 
-## macOS
+## macOS（暂缓支持）
 
-1. Download the universal DMG, which runs on Apple Silicon and Intel Macs.
-2. Drag `ANYRAID-ORCA.app` to the Applications folder.
-3. If macOS quarantines a PR build, open it once through the Finder context menu or remove the quarantine attribute:
-
-   ```shell
-   xattr -dr com.apple.quarantine /Applications/ANYRAID-ORCA.app
-   ```
-
-ANYRAID-ORCA does not use the upstream OrcaSlicer Homebrew package.
+ANYRAID-ORCA 当前不构建、测试或发布 macOS 安装包，也不把 macOS 作为合并门禁。仓库保留相关构建脚本，待明确需要向 macOS 用户提供程序后再恢复 CI、测试和发布流程。
 
 ## Linux
 
@@ -133,7 +118,7 @@ chmod +x /path/to/ANYRAID-ORCA_Linux.AppImage
 Build entry points are maintained in this repository:
 
 - Windows: `build_win.bat`
-- macOS: `build_release_macos.sh`
+- macOS: `build_release_macos.sh`（仅保留以便将来恢复，当前 CI 不执行）
 - Linux: `build_linux.sh`
 - Flatpak: `build_flatpak.sh`
 

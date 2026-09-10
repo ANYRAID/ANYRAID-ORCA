@@ -49,7 +49,6 @@ jobs:
       contents: write        # pulls.merge
       pull-requests: write   # pulls.merge
       issues: write          # feedback comment + reactions
-      actions: write         # re-dispatch build_all.yml after the merge
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # Supplies FOLDER_MERGERS. Must carry no protection rules, or every
@@ -494,17 +493,3 @@ jobs:
               `@${commenter} squash-merged into \`${pr.base.ref}\` as ${merged.sha}.\n\nVerified scope: ${scopeSummary}`
             );
 
-            // ---- re-kick the build ----
-            // A GITHUB_TOKEN merge fires no push event, so build_all.yml would
-            // otherwise never see these files.
-            try {
-              await github.rest.actions.createWorkflowDispatch({
-                owner,
-                repo,
-                workflow_id: 'build_all.yml',
-                ref: pr.base.ref
-              });
-              core.info(`Dispatched build_all.yml on ${pr.base.ref}.`);
-            } catch (error) {
-              core.warning(`Merged successfully, but dispatching build_all.yml failed: ${error.message}`);
-            }
