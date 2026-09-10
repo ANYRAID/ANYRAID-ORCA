@@ -78,17 +78,6 @@ Explore the latest developments in ANYRAID-ORCA with nightly builds.
 
 完整的 `Build all` 不在 pull request 或普通分支提交上运行；它仅由每日 nightly 计划任务，或 `v*` 版本标签（例如 `v2.4.0`、`v2.4.0-beta`）触发。
 
-### Belt Printer Builds
-
-The nightly release may ship standard and belt-printer builds. Tell them apart by the filename suffix:
-
-- **Standard** — no suffix, for example `ANYRAID-ORCA_Windows_Installer_x64_nightly.exe`
-- **Belt** — `_belt` suffix, for example `ANYRAID-ORCA_Windows_Installer_x64_nightly_belt.exe`
-
-The `_belt` builds add experimental support for belt or conveyor (infinite-Z) printers, including the slicing pipeline, mesh and G-code transforms, support generation, and tilted-bed preview.
-
-> ⚠️ Belt printer support remains experimental.
-
 # How to install
 
 ## Windows
