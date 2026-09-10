@@ -74,7 +74,9 @@ Visit the GitHub Releases page for the latest stable version of ANYRAID-ORCA.
 🌙 **[Download the Latest Nightly Build](https://github.com/ANYRAID/ANYRAID-ORCA/releases/tag/nightly-builds)**
 Explore the latest developments in ANYRAID-ORCA with nightly builds.
 
-> 当前仅构建和发布 Windows 与 Linux 版本。macOS 构建、测试及发布已暂停，待明确需要向 macOS 用户提供程序后再恢复。\n\n完整的 `Build all` 不在 pull request 或普通分支提交上运行；它仅由每日 nightly 计划任务，或 `v*` 版本标签（例如 `v2.4.0`、`v2.4.0-beta`）触发。
+> 当前仅构建和发布 Windows 与 Linux 版本。macOS 构建、测试及发布已暂停，待明确需要向 macOS 用户提供程序后再恢复。
+
+完整的 `Build all` 不在 pull request 或普通分支提交上运行；它仅由每日 nightly 计划任务，或 `v*` 版本标签（例如 `v2.4.0`、`v2.4.0-beta`）触发。
 
 ### Belt Printer Builds
 
