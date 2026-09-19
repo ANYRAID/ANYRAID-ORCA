@@ -1,188 +1,137 @@
 <div align="center">
 
 <picture>
-  <img alt="ANYRAID logo" src="resources/images/ANYRAID-logo-with-word.png" width="24%">
+  <img alt="ANYRAID 标志" src="resources/images/ANYRAID-logo-with-word.png" width="24%">
 </picture>
 
-[![Repository](https://img.shields.io/badge/GitHub-ANYRAID--ORCA-181717?style=flat&logo=github&logoColor=white)](https://github.com/ANYRAID/ANYRAID-ORCA)
+[![项目仓库](https://img.shields.io/badge/GitHub-ANYRAID--ORCA-181717?style=flat&logo=github&logoColor=white)](https://github.com/ANYRAID/ANYRAID-ORCA)
 
 </div>
 
 # ANYRAID-ORCA
 
-ANYRAID-ORCA 是面向 ANYRAID 研发工作流的开源 3D 打印切片器，也是 ANYRAID-WEBSLICER 使用的原生切片内核来源。
+ANYRAID-ORCA 是一款开源 3D 打印切片软件，帮助你将三维模型转换为打印机可执行的打印文件。你可以选择打印机和耗材预设，调整打印参数，生成并预览切片结果，再将文件发送到兼容的打印机。
 
-ANYRAID-ORCA is an open-source 3D-printing slicer for ANYRAID development workflows and the native slicing-engine source used by ANYRAID-WEBSLICER.
+## 主要功能
 
-## 上游来源与许可证
+- **打印校准**：提供温度塔、流量、回抽和压力提前等校准工具。
+- **外墙与接缝控制**：支持外墙间距调整、斜接缝和墙体打印顺序设置，改善表面质量。
+- **填充与孔洞优化**：提供多种填充方式和多边形孔洞补偿选项。
+- **悬垂与支撑优化**：支持树状支撑和支撑位置调整，适应复杂模型。
+- **精细参数设置**：调整速度、层高、温度及挤出参数，适配不同材料和打印需求。
+- **首层附着辅助**：支持鼠耳边缘和自适应热床网格等功能，具体可用能力取决于打印机配置。
+- **多种打印机预设**：内置 ANYRAID 鸿影系列及其他品牌的打印机预设。
+- **网络打印**：支持连接用户配置的 Klipper、PrusaLink、OctoPrint 等兼容打印服务。
 
-本项目衍生自 [OrcaSlicer](https://github.com/OrcaSlicer/OrcaSlicer)，并继续包含来自 PrusaSlicer、BambuStudio、SuperSlicer、CuraSlicer 及其他开源组件的成果。所有上游版权、许可证和第三方归属声明均予以保留。
+功能变化和修复内容请查看[版本说明](https://github.com/ANYRAID/ANYRAID-ORCA/releases)。
 
-This project is derived from [OrcaSlicer](https://github.com/OrcaSlicer/OrcaSlicer) and retains the upstream copyright, license, and third-party attribution notices. See [LICENSE.txt](LICENSE.txt) and the in-application license information.
+## 下载
 
-## 项目链接
+请从 [ANYRAID-ORCA 发布页面](https://github.com/ANYRAID/ANYRAID-ORCA/releases)选择适合操作系统和处理器架构的安装包，可用版本及文件以发布页面为准。
 
-- ANYRAID-ORCA：https://github.com/ANYRAID/ANYRAID-ORCA
-- 上游 OrcaSlicer：https://github.com/OrcaSlicer/OrcaSlicer
+- **稳定版**：适合日常使用，优先选择未标记为预发布的版本。
+- **每日测试版**：用于体验近期改动，可能存在尚未修复的问题。可在[每日测试版页面](https://github.com/ANYRAID/ANYRAID-ORCA/releases/tag/nightly-builds)查看可用文件。
 
-# Main features
+当前支持 Windows 和 Linux，暂不提供 macOS 安装包。
 
-- **Advanced Calibration Tools**
-  Comprehensive suite: temperature towers, flow rate, retraction, and more for optimal performance.
-- **Precise Wall and Seam Control**
-  Adjust outer wall spacing and apply scarf seams to enhance print accuracy.
-- **Sandwich Mode and Polyholes Support**
-  Use varied infill patterns and accurate hole shapes for improved clarity.
-- **Overhang and Support Optimization**
-  Modify geometry for printable overhangs with precise support placement.
-- **Granular Controls and Customization**
-  Fine-tune print speed, layer height, pressure, and temperature with precision.
-- **Network Printer Support**
-  Seamless integration with Klipper, PrusaLink, and OctoPrint for remote control.
-- **Mouse Ear Brims and Adaptive Bed Mesh**
-  Automatic brims and adaptive mesh calibration ensure consistent adhesion.
-- **User-Friendly Interface**
-  Intuitive drag-and-drop design with pre-made profiles for popular printers.
-- **Open-Source and Community Driven**
-  Regular updates fueled by continuous community contributions.
-- **Wide Printer Compatibility**
-  Supports a broad range of printers, including Bambu Lab, Prusa, Creality, and Voron.
+## 安装与启动
 
-Additional features can be found in the [ANYRAID-ORCA change notes](https://github.com/ANYRAID/ANYRAID-ORCA/releases/).
+### Windows 系统
 
-# Documentation
+下载与处理器架构匹配的安装程序，按提示完成安装。若发布页面提供便携版，也可以解压后启动。
 
-ANYRAID-ORCA does not link to or depend on the OrcaSlicer Wiki. Fork-specific documentation is maintained in this repository.
+如果无法启动，或部分内置页面无法正常显示，请按需安装相应组件：
 
-## 网络服务边界
+- [Microsoft Edge WebView2 运行时](https://aka.ms/webview2)。
+- Microsoft Visual C++ 运行库：[x64 版本](https://aka.ms/vs/17/release/vc_redist.x64.exe)或 [ARM64 版本](https://aka.ms/vs/17/release/vc_redist.arm64.exe)，请选择与安装包架构匹配的版本。
 
-- 默认禁用 OrcaSlicer 运营的版本检查、配置更新、账号、云同步和插件服务。
-- 本地切片及用户显式配置的第三方打印机连接不受影响。
-- 只有在 ANYRAID 服务地址、认证和兼容性验证完成后，才能重新启用对应在线能力。
+目前没有官方 Microsoft Store 或 WinGet 安装渠道。
 
-By default, ANYRAID-ORCA does not connect to OrcaSlicer-operated version, profile, account, cloud-sync, or plugin services. Local slicing and explicitly configured third-party printer connections remain available.
+### Linux 系统
 
-# Download
+#### AppImage 安装包
 
-## Stable Release
-
-📥 **[Download the Latest Stable Release](https://github.com/ANYRAID/ANYRAID-ORCA/releases/latest)**
-Visit the GitHub Releases page for the latest stable version of ANYRAID-ORCA.
-
-## Nightly Builds
-
-🌙 **[Download the Latest Nightly Build](https://github.com/ANYRAID/ANYRAID-ORCA/releases/tag/nightly-builds)**
-Explore the latest developments in ANYRAID-ORCA with nightly builds.
-
-> 当前仅构建和发布 Windows 与 Linux 版本。macOS 构建、测试及发布已暂停，待明确需要向 macOS 用户提供程序后再恢复。
-
-完整的 `Build all` 不在 pull request 或普通分支提交上运行；它仅由每日 nightly 计划任务，或 `v*` 版本标签（例如 `v2.4.0`、`v2.4.0-beta`）触发。
-
-# How to install
-
-## Windows
-
-Download the Windows installer for your CPU architecture from the [ANYRAID-ORCA releases page](https://github.com/ANYRAID/ANYRAID-ORCA/releases). A portable build may also be available.
-
-If the application does not start, install the following runtimes when needed:
-
-- [Microsoft Edge WebView2 Runtime](https://aka.ms/webview2)
-- [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-
-ANYRAID-ORCA currently has no official Microsoft Store or WinGet package.
-
-## macOS（暂缓支持）
-
-ANYRAID-ORCA 当前不构建、测试或发布 macOS 安装包，也不把 macOS 作为合并门禁。仓库保留相关构建脚本，待明确需要向 macOS 用户提供程序后再恢复 CI、测试和发布流程。
-
-## Linux
-
-### Flatpak
-
-Build or install the ANYRAID-ORCA Flatpak bundle, then run it with the lowercase application ID:
-
-```shell
-flatpak run com.anyraid.anyraidorca
-```
-
-### AppImage
-
-AppImages may be published for x86_64 and aarch64. Download the file matching your CPU, make it executable if required, and run it:
+下载与处理器架构匹配的 AppImage 文件。赋予执行权限后启动，将下方路径替换为实际文件路径：
 
 ```shell
 chmod +x /path/to/ANYRAID-ORCA_Linux.AppImage
+/path/to/ANYRAID-ORCA_Linux.AppImage
 ```
 
-# 开发与合并流程
+#### Flatpak 安装包
 
-统一采用 **任务分支 → `develop` → `main`**：从最新 `develop` 创建独立任务分支及工作树，经 PR 集成到 `develop`，完成适用验证后再由 `develop` 向 `main` 提交晋级 PR。`main` 保持为默认发布分支。
+如果发布页面提供 Flatpak 安装包，可在已安装 Flatpak 的系统中执行以下命令，将路径替换为实际文件路径：
 
-详见 [开发与分支流程](docs/development-workflow.md)，包含验证门禁、分支保护配置和发布边界。
+```shell
+flatpak install --user /path/to/ANYRAID-ORCA.flatpak
+flatpak run com.anyraid.anyraidorca
+```
 
-# How to compile
+## 开始使用
 
-Build entry points are maintained in this repository:
+1. 启动软件，选择与你的打印机、喷嘴和耗材相符的预设。
+2. 导入三维模型，调整摆放方向、层高、填充和支撑等参数。
+3. 执行切片，在预览中检查打印路径、支撑和首层。
+4. 导出打印文件，或通过已配置的兼容打印服务发送到打印机。
 
-- Windows: `build_win.bat`
-- macOS: `build_release_macos.sh`（仅保留以便将来恢复，当前 CI 不执行）
-- Linux: `build_linux.sh`
-- Flatpak: `build_flatpak.sh`
+更换耗材或打印头后，建议先完成相应校准，再进行正式打印。
 
-# Klipper note
+## 联网功能说明
 
-For Klipper printers, the following configuration is recommended in `printer.cfg`:
+本地切片可以离线使用。当前默认关闭 OrcaSlicer 提供的在线版本检查、预设更新、账号、云同步和插件服务；你仍可手动下载新版本，并连接自行配置的兼容第三方打印服务。
+
+## Klipper 打印机设置
+
+如需使用对象排除和圆弧指令功能，请确认打印机的 `printer.cfg` 中包含以下配置。已有相同配置段时无需重复添加：
 
 ```gcode
-# Enable object exclusion
+# 启用对象排除
 [exclude_object]
 
-# Enable arcs support
+# 启用圆弧指令支持
 [gcode_arcs]
 resolution: 0.1
 ```
 
-# Upstream project support and attribution
+## 问题反馈
 
-Upstream OrcaSlicer is an open-source project. ANYRAID-ORCA retains its copyright, license, and third-party attribution notices and is grateful to its contributors, sponsors, and backers.
+遇到问题时，可在[问题反馈页面](https://github.com/ANYRAID/ANYRAID-ORCA/issues)提交软件版本、操作系统、打印机型号及复现步骤。截图或不含敏感信息的示例模型有助于定位问题。
 
-## Sponsors
+## 开源来源与致谢
+
+本项目衍生自 [OrcaSlicer](https://github.com/OrcaSlicer/OrcaSlicer)，保留上游版权、许可证和第三方归属声明，感谢上游贡献者、赞助商和支持者。
+
+开源切片软件的发展凝聚了多个项目的成果：[Slic3r](https://github.com/Slic3r/Slic3r) 由 Alessandro Ranellucci 和 RepRap 社区奠定基础；[PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) 在此基础上发展；[Bambu Studio](https://github.com/bambulab/BambuStudio) 和 [SuperSlicer](https://github.com/supermerill/SuperSlicer) 延续并拓展了相关功能。OrcaSlicer 也融合了 CuraSlicer 等项目的理念与成果，进一步发展了校准、接缝、树状支撑和自适应切片等功能。
+
+OrcaSlicer 标志由社区成员 [Justin Levine](https://github.com/jal-co) 设计。
+
+### 上游赞助商
 
 <table>
 <tr>
 <td>
-<a href="https://qidi3d.com/" style="display:inline-block; border-radius:8px; background:#fff;">
-  <img src="SoftFever_doc/sponsor_logos/QIDI.png" alt="QIDI" width="100" height="100">
+<a href="https://qidi3d.com/">
+  <img src="SoftFever_doc/sponsor_logos/QIDI.png" alt="上游赞助商 QIDI" width="100" height="100">
 </a>
 </td>
 <td>
-<a href="https://bigtree-tech.com/" style="display:inline-block; border-radius:8px; background:#222;">
-  <img src="SoftFever_doc/sponsor_logos/BigTreeTech.png" alt="BIGTREE TECH" width="100" height="100">
+<a href="https://bigtree-tech.com/">
+  <img src="SoftFever_doc/sponsor_logos/BigTreeTech.png" alt="上游赞助商 BIGTREE TECH" width="100" height="100">
 </a>
 </td>
 </tr>
 </table>
 
-## Backers
+### 支持上游项目
 
-**Ko-fi supporters** ☕: [Backers list](https://github.com/user-attachments/files/16147016/Supporters_638561417699952499.csv)
+- [通过 GitHub 赞助](https://github.com/sponsors/SoftFever)
+- [通过 Ko-fi 支持](https://ko-fi.com/G2G5IP3CP)
+- [通过 PayPal 支持](https://paypal.me/softfever3d)
+- [查看 Ko-fi 支持者名单](https://github.com/user-attachments/files/16147016/Supporters_638561417699952499.csv)
 
-## Support the upstream project
+## 许可证
 
-<a href="https://github.com/sponsors/SoftFever"><img src="https://img.shields.io/badge/GitHub%20Sponsors-30363D?style=flat&logo=GitHub-Sponsors&logoColor=EA4AAA" height="50"></a>
-<a href="https://ko-fi.com/G2G5IP3CP"><img src="https://img.shields.io/badge/Support_me_on_Ko--fi-FF5E5B?style=flat&logo=ko-fi&logoColor=white" height="50"></a>
-<a href="https://paypal.me/softfever3d"><img src="https://img.shields.io/badge/PayPal-003087?style=flat&logo=paypal&logoColor=fff" height="50"></a>
+OrcaSlicer 和 ANYRAID-ORCA 采用 GNU Affero 通用公共许可证第 3 版（AGPLv3）。完整条款见 [LICENSE.txt](LICENSE.txt)，第三方组件声明也可在应用内查看。
 
-## Background
-
-Open-source slicing has always been built on a tradition of collaboration and attribution. [Slic3r](https://github.com/Slic3r/Slic3r), created by Alessandro Ranellucci and the RepRap community, laid the foundation. [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) by Prusa Research built on Slic3r and acknowledged that heritage. [Bambu Studio](https://github.com/bambulab/BambuStudio) in turn forked from PrusaSlicer, and [SuperSlicer](https://github.com/supermerill/SuperSlicer) extended PrusaSlicer with community-driven enhancements.
-
-OrcaSlicer began in that same spirit, drawing from BambuStudio, PrusaSlicer, and ideas inspired by CuraSlicer and SuperSlicer. It has since introduced advanced calibration tools, precise wall and seam control, tree supports, adaptive slicing, and many other features used throughout the 3D-printing community.
-
-The OrcaSlicer logo was designed by community member [Justin Levine](https://github.com/jal-co).
-
-# License
-
-- OrcaSlicer and ANYRAID-ORCA are licensed under the GNU Affero General Public License, version 3.
-- The AGPLv3 requires corresponding source availability when covered software is provided as a network service.
-- OrcaSlicer includes a pressure advance calibration pattern derived from Andrew Ellis' GPLv3 generator, itself adapted from a Marlin generator by Sineos.
-- The optional Bambu networking plugin is based on non-free libraries from Bambu Lab and provides extended functionality for compatible printers.
+- 压力提前校准图案衍生自 Andrew Ellis 的 GPLv3 生成器，该生成器又改编自 Sineos 的 Marlin 生成器。
+- 可选的 Bambu 网络插件基于 Bambu Lab 的非自由软件库，为兼容打印机提供扩展功能。
