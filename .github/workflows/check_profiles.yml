@@ -1,12 +1,10 @@
 name: Check profiles
 on:
   pull_request:
-    # release/* is included because pr-merge-bot.yml lets delegates merge into
-    # it, and it gates on this workflow's result. Without it a delegated merge
-    # into a release branch would run no profile validation at all.
+    # Task PRs target develop; promotion PRs target main.
     branches:
+    - develop
     - main
-    - release/*
     paths:
     - 'resources/profiles/**'
     # The extra JSON check also validates resources/printers/bambu_filament_ids.json,

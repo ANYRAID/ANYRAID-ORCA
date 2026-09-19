@@ -2,6 +2,15 @@
 
 OrcaSlicer — open-source C++17 3D slicer. wxWidgets GUI, CMake build system.
 
+## 分支与交付流程
+
+- 遵循 [开发与分支流程](docs/development-workflow.md)：任务分支 → `develop` → `main`。
+- 从最新 `origin/develop` 创建独立任务分支及对应工作树；不得直接在共享分支上开发。
+- 任务 PR 以 `develop` 为目标；`main` 仅接受本仓库 `develop` 的晋级 PR。
+- 晋级采用 merge commit，保留 `develop` 的提交祖先关系；完成后将本地分支快进同步，不重置或强推共享分支。
+- 提交主题与正文使用中文，Conventional Commits 前缀可保留英文。
+- 完整构建仍仅由 nightly 计划与 `v*` 标签触发。不得因流程调整自动创建版本标签或发布生产产物。
+
 ## Build Commands
 
 ```bash
