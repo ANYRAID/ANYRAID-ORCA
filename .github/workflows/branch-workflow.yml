@@ -1,0 +1,47 @@
+name: Branch workflow
+
+on:
+  pull_request:
+    branches: [develop, main]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+jobs:
+  branch_policy:
+    name: Branch policy
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate promotion source
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          TARGET_REPOSITORY: ${{ github.repository }}
+        run: |
+          if [[ "$BASE_BRANCH" == "main" ]]; then
+            if [[ "$HEAD_BRANCH" != "develop" || "$HEAD_REPOSITORY" != "$TARGET_REPOSITORY" ]]; then
+              echo "::error::main only accepts promotion PRs from this repository's develop branch. Target task PRs at develop."
+              exit 1
+            fi
+          elif [[ "$BASE_BRANCH" != "develop" ]]; then
+            echo "::error::Unsupported base branch."
+            exit 1
+          fi
+
+  repository_checks:
+    name: Repository checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run preset tooling tests
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Check profile JSON and identifiers
+        run: python3 scripts/orca_extra_profile_check.py
