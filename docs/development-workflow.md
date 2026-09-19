@@ -41,3 +41,16 @@
 保持既有交付策略：完整 `Build all` 仅由每日 nightly 计划或 `v*` 标签触发，普通 PR、任务分支和 `develop` 推送不触发完整构建。Windows 与 Linux 为当前交付平台，macOS 继续暂停。
 
 版本标签应基于完成晋级和规定验证的 `main` 提交。配置分支流程不构成创建标签、发布安装包或生产部署的授权；正式发布继续遵循已有发布流程与授权范围。
+
+## 文档受众与编译入口
+
+根目录 `README.md` 面向最终用户，使用中文介绍软件功能、下载、安装、使用及开源归属。品牌名、命令和代码标识符保留原文。内部项目依赖、切片内核复用关系、分支策略、CI 和编译备注不放入用户说明；开发与运维资料维护在 `docs/` 及适用的 `AGENTS.md` 中。
+
+仓库现有编译入口：
+
+- Windows：[`build_win.bat`](../build_win.bat)。
+- Linux：[`build_linux.sh`](../build_linux.sh)。
+- Flatpak：[`build_flatpak.sh`](../build_flatpak.sh)。
+- macOS：[`build_release_macos.sh`](../build_release_macos.sh)，仅保留脚本，当前不执行相关 CI，也不提供安装包。
+
+在线服务目前默认关闭。只有完成 ANYRAID 服务地址、认证和兼容性验证后，才能重新启用对应能力；不得恢复对 OrcaSlicer 运营服务的默认依赖。
