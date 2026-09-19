@@ -9,7 +9,7 @@ name: PR Merge Bot
 #   /bot merge --dry-run    report the verdict without merging
 #
 # Merges only when the commenter holds a grant covering every changed path, the
-# PR targets main or release/*, and CI is green on the head commit. Otherwise it
+# PR targets develop, and CI is green on the head commit. Otherwise it
 # comments naming the files that fell outside the grant.
 #
 # Grants come from the FOLDER_MERGERS variable in the `merge-delegation`
@@ -72,7 +72,7 @@ jobs:
             const MARKER = '<!-- pr-merge-bot -->';
             // No grant may reach outside this root.
             const DELEGATABLE_ROOT = 'resources/profiles/';
-            const ALLOWED_BASE_BRANCH = /^(?:main|release\/.+)$/;
+            const ALLOWED_BASE_BRANCH = /^develop$/;
             const MERGE_METHOD = 'squash';
             const REQUIRED_CHECK = 'Check profiles';   // job name in check_profiles.yml
             const MAX_CHANGED_FILES = 500;             // policy cap, well under listFiles' 3000
@@ -282,7 +282,7 @@ jobs:
               return refuse('it is still a draft. Mark it ready for review first.');
             }
             if (!ALLOWED_BASE_BRANCH.test(pr.base.ref)) {
-              return refuse(`it targets \`${pr.base.ref}\`. Delegated merges are only allowed into \`main\` and \`release/*\`.`);
+              return refuse(`it targets \`${pr.base.ref}\`. Delegated merges are only allowed into \`develop\`.`);
             }
 
             // ---- folder scope ----
@@ -423,7 +423,7 @@ jobs:
             const requiredCheck = checkRuns.find((run) =>
               run.name === REQUIRED_CHECK &&
               run.app && run.app.slug === 'github-actions' &&
-              run.status === 'completed' && OK_CONCLUSIONS.has(run.conclusion));
+              run.status === 'completed' && run.conclusion === 'success');
 
             if (!requiredCheck) {
               return refuse(

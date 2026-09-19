@@ -3,6 +3,7 @@ name: Check locale
 on: 
     pull_request:
       branches: 
+       - develop
        - main 
       paths:
        - 'localization/**'

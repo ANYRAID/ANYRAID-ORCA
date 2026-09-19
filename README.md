@@ -113,6 +113,12 @@ AppImages may be published for x86_64 and aarch64. Download the file matching yo
 chmod +x /path/to/ANYRAID-ORCA_Linux.AppImage
 ```
 
+# 开发与合并流程
+
+统一采用 **任务分支 → `develop` → `main`**：从最新 `develop` 创建独立任务分支及工作树，经 PR 集成到 `develop`，完成适用验证后再由 `develop` 向 `main` 提交晋级 PR。`main` 保持为默认发布分支。
+
+详见 [开发与分支流程](docs/development-workflow.md)，包含验证门禁、分支保护配置和发布边界。
+
 # How to compile
 
 Build entry points are maintained in this repository:
